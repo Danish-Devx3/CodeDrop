@@ -25,7 +25,6 @@ export const protect = asyncHandler(async (req, res, next) => {
 
     // set user details in the request object
     req.user = user;
-    console.log(user)
 
     next();
   } catch (error) {
