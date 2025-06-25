@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import slugify from "slugify"
 
 const SnippetSchema = new mongoose.Schema({
     title: {
@@ -79,7 +80,35 @@ const SnippetSchema = new mongoose.Schema({
     
 },
 { timestamps: true }
-)
+);
+
+SnippetSchema.pre("save", async function (next) {
+    try {
+        if (!this.slug){
+            this.slug = slugify(this.title, {
+                lower:true,
+                strict:true,
+                replacement:"-"
+            });
+        }
+
+        let isSlugExit = await mongoose.models.Snippet.findOne({slug: this.slug});
+        let suffix = 1;
+
+        while(isSlugExit){
+            this.slug = `${slugify(this.title, {
+                lower: true,
+                strict: true,
+                replacement: "-"
+            })}-${suffix}`;
+            isSlugExit = await mongoose.models.Snippet.findOne({slug: this.slug});
+            suffix++;
+        }
+    } catch (error) {
+        console.log("Error in generating slug", error);
+        return next(error);
+    }
+})
 
 const Snippet = mongoose.model("Snippet", SnippetSchema);
 
