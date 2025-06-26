@@ -3,10 +3,14 @@ import { protect } from "../middleware/authMiddleware.js";
 import {
   createSnippet,
   deleteSnippet,
+  getLeaderboard,
+  getPopularSnippets,
   getPublicSnippetById,
   getPublicSnippets,
+  getUserLikedSnippets,
   getUserSnippetById,
   getUserSnippets,
+  likeSnippet,
   updateSnippet,
 } from "../controllers/snippets/snippetController.js";
 
@@ -25,5 +29,13 @@ router.get("/snippet/public/:id", protect, getPublicSnippetById);
 router.patch("/snippet/:id", protect, updateSnippet);
 
 router.delete("/snippet/:id", protect, deleteSnippet);
+
+router.patch("/snippet/like/:id", protect, likeSnippet);
+
+router.get("/snippets/liked", protect, getUserLikedSnippets);
+
+router.get("/leaderboard", protect, getLeaderboard);
+
+router.get("/snippets/popular", getPopularSnippets);
 
 export default router;
