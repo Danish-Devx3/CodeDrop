@@ -386,7 +386,7 @@ export const getPopularSnippets = asyncHandler(async (req, res) => {
     if (tagId) {
       query.tags = { $in: [tagId] };
     }
-
+k
     if (search) {
       query.$or = [
         { title: { $regex: search, $options: "i" } },
