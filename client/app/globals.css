@@ -49,4 +49,32 @@ body {
   height: 100%;
   -o-object-fit: cover;
      object-fit: cover;
+}
+
+.blob {
+  position: absolute;
+  top: 20px;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  right: -70px;
+  background-color: rgba(249, 249, 249, 0.35);
+  transition: all 0.4s ease-in-out;
+  opacity: 0.7;
+}
+
+.btn-hover:hover .blob {
+  width: 180px;
+  height: 180px;
+  top: -10px;
+  right: -110px;
+  opacity: 0.5;
+}
+
+.u-shadow-1 {
+  box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.u-shadow-2 {
+  box-shadow: rgba(0, 0, 0, 0.17) 3px 3px 10px;
 }/*# sourceMappingURL=globals.css.map */
