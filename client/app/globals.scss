@@ -116,3 +116,11 @@ body {
 .sidebar-nav-item {
   position:relative;
 }
+
+.tag-item {
+  transition: all 0.3s ease-in-out;
+
+  &:hover{
+    box-shadow: 0px 4px 0px var(--color--grey-4);
+  }
+}
