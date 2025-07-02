@@ -1,5 +1,6 @@
 "use client";
 import { useSnippetContext } from "@/context/SnippetsContext";
+import { useUserContext } from "@/context/userContext";
 import { ISnippet } from "@/types/types";
 import { formatDate } from "@/utils/Date";
 import { bookmarkEmpty, copy, heartOutline } from "@/utils/Icons";
@@ -23,6 +24,8 @@ function Snippet({ snippet, height = "400px" }: Props) {
   const languageLogo = (language: string) => {
     return `/logos/${language.toLowerCase()}.svg`;
   };
+  
+  const userId = useUserContext().user._id;
 
   return (
     <div className="shadow-sm flex flex-col border-2 border-rgba-3 rounded-lg">
@@ -133,6 +136,7 @@ function Snippet({ snippet, height = "400px" }: Props) {
               );
             })}
           </ul>
+          {}
         </div>
       </div>
     </div>

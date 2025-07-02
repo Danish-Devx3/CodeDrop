@@ -1,12 +1,17 @@
 import axios from "axios";
 import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
+import toast from "react-hot-toast";
+import { useGlobalContext } from "./globalContext";
 
 const SnippetsContext = createContext();
 
 export const SnippetsProvider = ({ children }) => {
-  const severUrl = "http://localhost:8000/api/v1";
+  const serverUrl = "http://localhost:8000/api/v1";
 
   const [publicSnippets, setPublicSnippets] = useState([]);
+  const [tags, setTags] = useState([]);
+
+  const {closeModal} = useGlobalContext();
 
   const getPublicSnippets = async (userId, tagId, searchQuery, page) => {
     try {
@@ -24,7 +29,7 @@ export const SnippetsProvider = ({ children }) => {
       if (page) {
         queryPrams.append("page", page);
       }
-      const res = await axios.get(`${severUrl}/snippets/public?${queryPrams.toString()}`);
+      const res = await axios.get(`${serverUrl}/snippets/public?${queryPrams.toString()}`);
       if (res.data && res.data.snippets) {
         setPublicSnippets(res.data.snippets);
         return res.data.snippets;
@@ -37,6 +42,38 @@ export const SnippetsProvider = ({ children }) => {
       return [];
     }
   };
+
+  const createSnippet =  async (data) => {
+    try {
+      const res = await axios.post(`${serverUrl}/create-snippet`, data);
+      setPublicSnippets([res.data, ...publicSnippets]);
+      getPublicSnippets();
+      toast.success("Snippet created successfully");
+      closeModal();
+    } catch (error) {
+      console.log("Error in createSnippet", error);
+      toast.error(error.response.data.message);
+    }
+  };
+
+  const updateSnippet = async (data)=>{
+    try {
+      await axios.patch(`${serverUrl}/snippet/${data._id}`, data)
+      getPublicSnippets();
+      toast.success("Snippet updated successfully")
+    } catch (error) {
+      console.log("Error in updateSnippet", error)
+    }
+  }
+
+  const getTags = async () => {
+    try {
+      const res = await axios.get(`${serverUrl}/tags`);
+      setTags(res.data);
+    } catch (error) {
+      console.log("Error in getTags", error)
+    }
+  }
 
   const gradients = {
     buttonGradient1:
@@ -79,6 +116,7 @@ export const SnippetsProvider = ({ children }) => {
 
   useEffect(() => {
     getPublicSnippets();
+    getTags();
   }, []);
 
   return (
@@ -86,7 +124,10 @@ export const SnippetsProvider = ({ children }) => {
         publicSnippets,
         getPublicSnippets,
         useBtnColorMemo,
-        useTagColorMemo
+        useTagColorMemo,
+        createSnippet,
+        tags,
+        updateSnippet
     }}>
       {children}
     </SnippetsContext.Provider>
