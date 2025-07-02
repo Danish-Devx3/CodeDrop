@@ -66,6 +66,16 @@ export const SnippetsProvider = ({ children }) => {
     }
   }
 
+  const deleteSnippet = async (id) => {
+    try {
+      const res = await axios.delete(`${serverUrl}/snippet/${id}`);
+      getPublicSnippets();
+      toast.success(res.data.message)
+    } catch (error) {
+      console.log("Error in deleteSnippet", error)
+    }
+  }
+
   const getTags = async () => {
     try {
       const res = await axios.get(`${serverUrl}/tags`);
@@ -127,7 +137,8 @@ export const SnippetsProvider = ({ children }) => {
         useTagColorMemo,
         createSnippet,
         tags,
-        updateSnippet
+        updateSnippet,
+        deleteSnippet,
     }}>
       {children}
     </SnippetsContext.Provider>

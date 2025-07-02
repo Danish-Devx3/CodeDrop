@@ -1,9 +1,10 @@
 "use client";
+import { useGlobalContext } from "@/context/globalContext";
 import { useSnippetContext } from "@/context/SnippetsContext";
 import { useUserContext } from "@/context/userContext";
 import { ISnippet } from "@/types/types";
 import { formatDate } from "@/utils/Date";
-import { bookmarkEmpty, copy, heartOutline } from "@/utils/Icons";
+import { bookmarkEmpty, copy, edit, heartOutline, trash } from "@/utils/Icons";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -17,14 +18,17 @@ interface Props {
 }
 
 function Snippet({ snippet, height = "400px" }: Props) {
-  const { useBtnColorMemo, useTagColorMemo } = useSnippetContext();
+  const { useBtnColorMemo, useTagColorMemo, deleteSnippet } =
+    useSnippetContext();
+
+    const {openModalForEdit} = useGlobalContext();
 
   const codeString = `${snippet?.code}`;
 
   const languageLogo = (language: string) => {
     return `/logos/${language.toLowerCase()}.svg`;
   };
-  
+
   const userId = useUserContext().user._id;
 
   return (
@@ -136,7 +140,24 @@ function Snippet({ snippet, height = "400px" }: Props) {
               );
             })}
           </ul>
-          {}
+          {snippet.user._id === userId && (
+            <div className="flex gap-2">
+              <button
+                onClick={() => openModalForEdit(snippet)}
+                style={{ background: useBtnColorMemo }}
+                className="w-10 h-10 flex items-center justify-center rounded-md text-sky-400 text-xl"
+              >
+                {edit}
+              </button>
+              <button
+                onClick={() => deleteSnippet(snippet._id)}
+                style={{ background: useBtnColorMemo }}
+                className="w-10 h-10 flex items-center justify-center rounded-md text-sky-400 text-xl"
+              >
+                {trash}
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>

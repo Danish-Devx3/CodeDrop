@@ -8,8 +8,8 @@ import React, { useEffect, useRef, useState } from "react";
 import Button from "../Button/Button";
 
 function AddSnippetModal() {
-  const { modalMode, closeModal, activeSnippet, updateSnippet } = useGlobalContext();
-  const { createSnippet, tags, useTagColorMemo } = useSnippetContext();
+  const { modalMode, closeModal, activeSnippet } = useGlobalContext();
+  const { createSnippet, tags, useTagColorMemo, updateSnippet } = useSnippetContext();
   const [activeTags, setActiveTags] = useState([] as any);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
