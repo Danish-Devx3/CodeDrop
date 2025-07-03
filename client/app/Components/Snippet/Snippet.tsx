@@ -2,12 +2,13 @@
 import { useGlobalContext } from "@/context/globalContext";
 import { useSnippetContext } from "@/context/SnippetsContext";
 import { useUserContext } from "@/context/userContext";
-import { ISnippet } from "@/types/types";
+import { ISnippet, ITag } from "@/types/types";
 import { formatDate } from "@/utils/Date";
-import { bookmarkEmpty, copy, edit, heartOutline, trash } from "@/utils/Icons";
+import { bookmarkEmpty, copy, edit, heart, heartOutline, trash } from "@/utils/Icons";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import { useRouter } from "nextjs-toploader/app";
+import React, { useEffect, useState } from "react";
 import SyntaxHighlighter from "react-syntax-highlighter";
 
 import { vs2015 } from "react-syntax-highlighter/dist/esm/styles/hljs";
@@ -18,10 +19,11 @@ interface Props {
 }
 
 function Snippet({ snippet, height = "400px" }: Props) {
-  const { useBtnColorMemo, useTagColorMemo, deleteSnippet } =
+  const { useBtnColorMemo, useTagColorMemo, deleteSnippet, likeSnippet, getPublicSnippet } =
     useSnippetContext();
 
-    const {openModalForEdit} = useGlobalContext();
+  const { openModalForEdit } = useGlobalContext();
+  const router = useRouter();
 
   const codeString = `${snippet?.code}`;
 
@@ -31,6 +33,27 @@ function Snippet({ snippet, height = "400px" }: Props) {
 
   const userId = useUserContext().user._id;
 
+  const [isLiked, setIsLiked] = useState(snippet.likedBy.includes(userId));
+  const [likeCount, setLikeCount] = useState(snippet.likedBy.length);
+  const [activeTag, setActiveTag] = useState("")
+
+  const handleLike = () => {
+    if (!userId) {
+      return router.push("/login");
+    }
+
+    setIsLiked((prev) => !prev);
+    setLikeCount((prev) => (isLiked ? prev - 1 : prev + 1));
+    likeSnippet(snippet._id);
+  };
+
+
+  useEffect(()=>{
+    if(activeTag){
+      getPublicSnippet("", activeTag)
+    }
+  })
+
   return (
     <div className="shadow-sm flex flex-col border-2 border-rgba-3 rounded-lg">
       <div className="px-5 py-3 flex items-center justify-between rounded-t-lg border-b-2 border-rgba-3">
@@ -38,7 +61,7 @@ function Snippet({ snippet, height = "400px" }: Props) {
           href={`/user/${snippet?.user?.name
             ?.toLowerCase()
             .split(" ")
-            .join("-")} ${snippet?.user?._id}`}
+            .join("-")}-${snippet?.user?._id}`}
           className="group"
         >
           <div className="flex items-center">
@@ -120,19 +143,24 @@ function Snippet({ snippet, height = "400px" }: Props) {
             <p className="pb-1 text-gray-400 ">{snippet?.description}</p>
           </div>
           <button
-            className={`flex flex-col items-center text-2xl text-gray-300 `}
+            onClick={handleLike}
+            className={`flex flex-col items-center text-2xl text-gray-300 transition-bg duration-300 ease-in-out ${isLiked && "text-red-500"} `}
           >
-            <span>{heartOutline}</span>
-            <span className="text-sm font-bold text-gray-300">0 likes</span>
+            <span>{isLiked ? heart : heartOutline}</span>
+            <span className="text-sm font-bold text-gray-300">
+              {likeCount === 0 ? 0 : likeCount}{" "}
+              {likeCount === 1 || 0 ? "like" : "likes"}
+            </span>
           </button>
         </div>
 
         <div className="pt-2 pb-3 flex justify-between">
           <ul className="flex items-start gap-2 flex-wrap">
-            {snippet?.tags.map((tag) => {
+            {snippet?.tags.map((tag:ITag) => {
               return (
                 <li
-                  style={{ background: useTagColorMemo }}
+                  style={{ background: activeTag === tag._id ? "#7263f3" : useTagColorMemo }}
+                  onClick={()=>setActiveTag(tag._id)}
                   className="tag-item px-4 py-1 border border-rgba-2 text-gray-300 rounded-md cursor-pointer "
                 >
                   {tag.name}

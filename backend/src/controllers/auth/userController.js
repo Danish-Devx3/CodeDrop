@@ -152,6 +152,24 @@ export const getUser = asyncHandler(async (req, res) => {
   }
 });
 
+// get by id
+
+export const getUserById = asyncHandler(async (req, res) => {
+  try {
+    const userId = req.params.id;
+
+    const user = await User.findById(userId).select("-password, -email");
+    if (!user) {
+      return res.status(500).json({ message: "User not found" });
+    }
+
+    return res.status(200).json(user);
+  } catch (error) {
+    console.log("Error in getUserById", error);
+    return res.status(404).json({ message: "Internal Server Error" });
+  }
+});
+
 // update user
 export const updateUser = asyncHandler(async (req, res) => {
   // get user details from the token ----> protect middleware

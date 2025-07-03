@@ -150,6 +150,19 @@ export const UserContextProvider = ({ children }) => {
     }
   };
 
+  const getUserById = async (id) => {
+    setLoading(true)
+    try {
+      const res = await axios.get(`${serverUrl}/api/v1/user/${id}`,{
+        withCredentials: true
+      });
+      setLoading(false);
+      return res.data;
+    } catch (error) {
+      console.log("Error in getUserById", error);
+    }
+  }
+
   // update user details
   const updateUser = async (e, data) => {
     e.preventDefault();
@@ -388,6 +401,7 @@ export const UserContextProvider = ({ children }) => {
         changePassword,
         allUsers,
         deleteUser,
+        getUserById,
       }}
     >
       {children}

@@ -74,6 +74,16 @@ export const SnippetsProvider = ({ children }) => {
     } catch (error) {
       console.log("Error in deleteSnippet", error)
     }
+  };
+
+  const likeSnippet = async (id) => {
+    try {
+      await axios.patch(`${serverUrl}/snippet/like/${id}`);
+      toast.success("You liked a snippet")
+    } catch (error) {
+      console.log("Error in likeSnippet");
+      toast.error(error.response.data.message)
+    }
   }
 
   const getTags = async () => {
@@ -139,6 +149,7 @@ export const SnippetsProvider = ({ children }) => {
         tags,
         updateSnippet,
         deleteSnippet,
+        likeSnippet,
     }}>
       {children}
     </SnippetsContext.Provider>
