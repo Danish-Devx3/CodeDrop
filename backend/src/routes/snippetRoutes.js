@@ -18,13 +18,13 @@ const router = e.Router();
 
 router.post("/create-snippet", protect, createSnippet);
 
-router.get("/snippets/public", protect, getPublicSnippets);
+router.get("/snippets/public", getPublicSnippets);
 
 router.get("/snippets", protect, getUserSnippets);
 
 router.get("/snippet/:id", protect, getUserSnippetById);
 
-router.get("/snippet/public/:id", protect, getPublicSnippetById);
+router.get("/snippet/public/:id", getPublicSnippetById);
 
 router.patch("/snippet/:id", protect, updateSnippet);
 

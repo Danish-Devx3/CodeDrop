@@ -18,16 +18,16 @@ function Header() {
 
   return (
     <div className="fixed z-20 top-0 w-full px-8 flex items-center justify-between bg-1 border-b-[2px] border-rgba-2 h-[8vh]">
-      <Link href="/" className="flex items-center space-x-2 ">
+      <Link href="/" className="flex items-center space-x-2 shadow-inner">
         <Image
-          className="ml-[1px]"
-          src="/thecodedealer--logo-white.png"
+          className="ml-[1px] bg-white"
+          src="/logo12.png"
           alt="logo"
-          width={30}
-          height={30}
+          width={200}
+          height={200}
         />
         <span className="">
-          <h1 className="font-bold text-white text-2xl px-2">Snippy</h1>
+          <h1 className="font-bold text-white text-2xl px-2">CodeDrop</h1>
         </span>
       </Link>
 

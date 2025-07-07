@@ -1,5 +1,11 @@
 import axios from "axios";
-import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import toast from "react-hot-toast";
 import { useGlobalContext } from "./globalContext";
 
@@ -10,11 +16,13 @@ export const SnippetsProvider = ({ children }) => {
 
   const [publicSnippets, setPublicSnippets] = useState([]);
   const [tags, setTags] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [userSnippets, setUserSnippets] = useState([]);
 
-  const {closeModal} = useGlobalContext();
+  const { closeModal } = useGlobalContext();
 
   const getPublicSnippets = async (userId, tagId, searchQuery, page) => {
-    console.log(userId)
+    console.log(userId);
     try {
       const queryPrams = new URLSearchParams();
 
@@ -30,7 +38,9 @@ export const SnippetsProvider = ({ children }) => {
       if (page) {
         queryPrams.append("page", page);
       }
-      const res = await axios.get(`${serverUrl}/snippets/public?${queryPrams.toString()}`);
+      const res = await axios.get(
+        `${serverUrl}/snippets/public?${queryPrams.toString()}`
+      );
       if (res.data && res.data.snippets) {
         setPublicSnippets(res.data.snippets);
         return res.data.snippets;
@@ -44,7 +54,7 @@ export const SnippetsProvider = ({ children }) => {
     }
   };
 
-  const createSnippet =  async (data) => {
+  const createSnippet = async (data) => {
     try {
       const res = await axios.post(`${serverUrl}/create-snippet`, data);
       setPublicSnippets([res.data, ...publicSnippets]);
@@ -57,44 +67,78 @@ export const SnippetsProvider = ({ children }) => {
     }
   };
 
-  const updateSnippet = async (data)=>{
+  const updateSnippet = async (data) => {
     try {
-      await axios.patch(`${serverUrl}/snippet/${data._id}`, data)
+      await axios.patch(`${serverUrl}/snippet/${data._id}`, data);
       getPublicSnippets();
-      toast.success("Snippet updated successfully")
+      toast.success("Snippet updated successfully");
     } catch (error) {
-      console.log("Error in updateSnippet", error)
+      console.log("Error in updateSnippet", error);
     }
-  }
+  };
+
+  const getPublicSnippetById = async (id) => {
+    setLoading(true);
+    try {
+      const res = await axios.get(`${serverUrl}/snippet/public/${id}`);
+      setLoading(false);
+      return res.data;
+    } catch (error) {
+      console.log("Error in getSnippetById", error);
+    }
+  };
+
+  const getUserSnippets = async (userId, tagId, search) => {
+    try {
+      if (!userId) return;
+      const queryPrams = new URLSearchParams();
+
+      if (tagId) {
+        queryPrams.append("tagId", tagId);
+      }
+      if (search) {
+        queryPrams.append("search", search);
+      }
+      const res = await axios.get(
+        `${serverUrl}/snippets?${queryPrams.toString()}`,
+       {
+        withCredentials: true,
+       });
+      setUserSnippets(res.data);
+      return res.data;
+    } catch (error) {
+      console.log("Error in getUserSnippet", error);
+    }
+  };
 
   const deleteSnippet = async (id) => {
     try {
       const res = await axios.delete(`${serverUrl}/snippet/${id}`);
       getPublicSnippets();
-      toast.success(res.data.message)
+      toast.success(res.data.message);
     } catch (error) {
-      console.log("Error in deleteSnippet", error)
+      console.log("Error in deleteSnippet", error);
     }
   };
 
   const likeSnippet = async (id) => {
     try {
       await axios.patch(`${serverUrl}/snippet/like/${id}`);
-      toast.success("You liked a snippet")
+      toast.success("You liked a snippet");
     } catch (error) {
       console.log("Error in likeSnippet");
-      toast.error(error.response.data.message)
+      toast.error(error.response.data.message);
     }
-  }
+  };
 
   const getTags = async () => {
     try {
       const res = await axios.get(`${serverUrl}/tags`);
       setTags(res.data);
     } catch (error) {
-      console.log("Error in getTags", error)
+      console.log("Error in getTags", error);
     }
-  }
+  };
 
   const gradients = {
     buttonGradient1:
@@ -127,13 +171,17 @@ export const SnippetsProvider = ({ children }) => {
       "linear-gradient(110.42deg, rgba(41, 25, 222, 0.1) 29.2%, rgba(235, 87, 87, 0.1) 63.56%)",
   };
 
-  const randomButtonColor = Object.values(gradients)[Math.floor(Math.random() * Object.values(gradients).length)]
-  const randomTagColor = Object.values(gradients)[Math.floor(Math.random() * Object.values(gradients).length)]
+  const randomButtonColor =
+    Object.values(gradients)[
+      Math.floor(Math.random() * Object.values(gradients).length)
+    ];
+  const randomTagColor =
+    Object.values(gradients)[
+      Math.floor(Math.random() * Object.values(gradients).length)
+    ];
 
-  
-  const useBtnColorMemo = useMemo(()=>randomButtonColor,[]);
-  const useTagColorMemo = useMemo(()=>randomTagColor,[]);
-
+  const useBtnColorMemo = useMemo(() => randomButtonColor, []);
+  const useTagColorMemo = useMemo(() => randomTagColor, []);
 
   useEffect(() => {
     getPublicSnippets();
@@ -141,7 +189,8 @@ export const SnippetsProvider = ({ children }) => {
   }, []);
 
   return (
-    <SnippetsContext.Provider value={{
+    <SnippetsContext.Provider
+      value={{
         publicSnippets,
         getPublicSnippets,
         useBtnColorMemo,
@@ -151,7 +200,13 @@ export const SnippetsProvider = ({ children }) => {
         updateSnippet,
         deleteSnippet,
         likeSnippet,
-    }}>
+        getPublicSnippetById,
+        loading,
+        setLoading,
+        userSnippets,
+        getUserSnippets,
+      }}
+    >
       {children}
     </SnippetsContext.Provider>
   );
