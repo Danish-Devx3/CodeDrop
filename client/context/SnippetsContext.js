@@ -14,6 +14,7 @@ export const SnippetsProvider = ({ children }) => {
   const {closeModal} = useGlobalContext();
 
   const getPublicSnippets = async (userId, tagId, searchQuery, page) => {
+    console.log(userId)
     try {
       const queryPrams = new URLSearchParams();
 
