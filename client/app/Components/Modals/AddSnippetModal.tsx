@@ -206,7 +206,7 @@ function AddSnippetModal() {
                   onClick={() => handleTags(tag)}
                   className="py-1 text-white text-sm"
                   style={{
-                    background: activeTags.some((activeTag) => {
+                    background: activeTags.some((activeTag: { _id: string }) => {
                       return activeTag._id === tag._id;
                     })
                       ? "#7263f3"
