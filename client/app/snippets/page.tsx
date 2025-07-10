@@ -1,7 +1,7 @@
 "use client"
 import { useSnippetContext } from '@/context/SnippetsContext'
 import { useUserContext } from '@/context/userContext';
-import { ISnippet } from '@/types/types';
+import { ISnippet, IUser } from '@/types/types';
 import { users } from '@/utils/Icons';
 import React, { useEffect, useId } from 'react'
 import Snippet from '../Components/Snippet/Snippet';
@@ -27,7 +27,7 @@ function page() {
     <div className='px-8 pt-[6.3rem] pb-8 grid grid-cols-1 md:grid-cols-2 gap-6'>
         
       {
-        userSnippets?.snippets?.map((snippet: ISnippet)=>{
+        userSnippets?.snippets?.map((snippet: ISnippet) => {
             return <Snippet snippet={snippet} />
         })
       }

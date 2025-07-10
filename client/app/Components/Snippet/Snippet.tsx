@@ -2,7 +2,7 @@
 import { useGlobalContext } from "@/context/globalContext";
 import { useSnippetContext } from "@/context/SnippetsContext";
 import { useUserContext } from "@/context/userContext";
-import { ISnippet, ITag } from "@/types/types";
+import { ISnippet, ITag, IUser } from "@/types/types";
 import { formatDate } from "@/utils/Date";
 import { bookmarkEmpty, copy, edit, heart, heartOutline, trash } from "@/utils/Icons";
 import Image from "next/image";
@@ -14,7 +14,7 @@ import SyntaxHighlighter from "react-syntax-highlighter";
 import { vs2015 } from "react-syntax-highlighter/dist/esm/styles/hljs";
 
 interface Props {
-  snippet: ISnippet;
+  snippet: ISnippet & { user: IUser };
   height?: string;
 }
 

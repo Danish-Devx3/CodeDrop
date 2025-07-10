@@ -26,7 +26,7 @@ interface ISnippet {
     language: string;
     tags: ITag[];
     likedBy: string[];
-    user: IDBRequestReadyState;
+    user: IUser;
     createdAt: string;
 }
 

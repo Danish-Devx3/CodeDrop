@@ -39,7 +39,7 @@ function Categories() {
 
   return (
     <div className="fixed w-full z-10">
-      <div className="pl-14 pr-[14rem] py-5 w-full bg-3 border-b-2 border-rgba-2 ">
+      <div className="pl-14 pr-[14rem] py-3 w-full bg-3 border-b-2 border-rgba-2 ">
         <Carousel className="w-full  lg:max-w-[1200px] xl:max-w-[1450px] ">
           <CarouselContent className="flex gap-4">
             <CarouselItem
@@ -58,7 +58,7 @@ function Categories() {
             {tags.map((tag: ITag) => {
               return (
                 <CarouselItem
-                  className={`relative text-sm px-6 py-1 rounded-full cursor-pointer border-[0.1rem] border-rgba-1 select-none  ${
+                  className={`relative text-[0.7rem] px-4 rounded-full cursor-pointer border-[0.1rem] border-rgba-1 select-none flex items-center justify-center  ${
                     activeTag === tag.name
                       ? "text-white bg-purple-400"
                       : "b-g-[#3a3b3c] text-white hover:text-gray-800 hover:bg-white transition-all duration-300 ease-in-out"

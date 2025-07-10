@@ -97,7 +97,7 @@ function page({ params: { id } }: Props) {
           </span>
         </h1>
         <div className="py-8 grid grid-cols-1 md:grid-cols-2 gap-6">
-          {snippets.map((snippet:ISnippet)=>{
+          {snippets.map((snippet: ISnippet) => {
             return <Snippet key={snippet._id} snippet={snippet} />
           })}
         </div>

@@ -3,6 +3,7 @@ import { useSnippetContext } from "@/context/SnippetsContext";
 import Snippet from "../../Components/Snippet/Snippet";
 import React, { useEffect, useState } from "react";
 import Loading from "@/app/Components/Loading/Loading";
+import { ISnippet, IUser } from "@/types/types";
 
 interface Props {
   params: {
@@ -13,7 +14,7 @@ interface Props {
 function page({ params: { id } }: Props) {
   const snippetId = id.split("-").at(-1);
   const { getPublicSnippetById } = useSnippetContext();
-  const [snippet, setSnippet] = useState([]);
+  const [snippet, setSnippet] = useState({} as ISnippet);
 
   useEffect(() => {
     (async () => {
