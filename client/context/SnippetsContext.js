@@ -12,17 +12,19 @@ import { useGlobalContext } from "./globalContext";
 const SnippetsContext = createContext();
 
 export const SnippetsProvider = ({ children }) => {
-  const serverUrl = "https://codedrop-5z74.onrender.com/api/v1";
+  const serverUrl = "http://localhost:8000/api/v1";
 
   const [publicSnippets, setPublicSnippets] = useState([]);
   const [tags, setTags] = useState([]);
   const [loading, setLoading] = useState(false);
   const [userSnippets, setUserSnippets] = useState([]);
+  const [likedSnippets, setLikedSnippets] = useState([]);
+  const [leaderboard, setLeaderboard] = useState([]);
 
   const { closeModal } = useGlobalContext();
 
   const getPublicSnippets = async (userId, tagId, searchQuery, page) => {
-    console.log(userId);
+    
     try {
       const queryPrams = new URLSearchParams();
 
@@ -111,6 +113,45 @@ export const SnippetsProvider = ({ children }) => {
     }
   };
 
+  const getLikedSnippets = async (userId, tagId, search) => {
+    try {
+      setLoading(true);
+      const queryPrams = new URLSearchParams();
+
+      if(userId){
+        queryPrams.append("userId", userId)
+      }
+      
+      if(tagId){
+        queryPrams.append("tagId", tagId)
+      }
+      if(search){
+        queryPrams.append("search", search)
+      }
+      
+      const res = await axios.get(`${serverUrl}/snippets/liked?${queryPrams.toString()}`, {
+        withCredentials: true,
+      });
+      setLikedSnippets(res.data.snippets);
+      setLoading(false);
+      return res.data;
+    } catch (error) {
+      console.log("Error in getLikedSnippet", error );
+    }
+  }
+
+  const getLeaderboard = async () => {
+    setLoading(true);
+    try {
+      const res = await axios.get(`${serverUrl}/leaderboard`)
+      setLoading(false);
+      setLeaderboard(res.data);
+      return res.data;
+    } catch (error) {
+      console.log("Error in getLeaderboard", error);
+    }
+  }
+
   const deleteSnippet = async (id) => {
     try {
       const res = await axios.delete(`${serverUrl}/snippet/${id}`);
@@ -186,6 +227,7 @@ export const SnippetsProvider = ({ children }) => {
   useEffect(() => {
     getPublicSnippets();
     getTags();
+    getLeaderboard();
   }, []);
 
   return (
@@ -205,6 +247,10 @@ export const SnippetsProvider = ({ children }) => {
         setLoading,
         userSnippets,
         getUserSnippets,
+        getLikedSnippets,
+        likedSnippets,
+        getLeaderboard,
+        leaderboard,
       }}
     >
       {children}

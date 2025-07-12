@@ -34,7 +34,7 @@ router.patch("/snippet/like/:id", protect, likeSnippet);
 
 router.get("/snippets/liked", protect, getUserLikedSnippets);
 
-router.get("/leaderboard", protect, getLeaderboard);
+router.get("/leaderboard", getLeaderboard);
 
 router.get("/snippets/popular", getPopularSnippets);
 

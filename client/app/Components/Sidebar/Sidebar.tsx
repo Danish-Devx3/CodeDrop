@@ -40,8 +40,8 @@ function Sidebar() {
     },
     {
       id: 2,
-      name: isSidebarOpen ? "Favourites" : "",
-      url: `${user ? "/favourites" : "/login"}`,
+      name: isSidebarOpen ? "Favorites" : "",
+      url: `${user ? "/favorites" : "/login"}`,
       icon: bookmarkIcon,
     },
     {
