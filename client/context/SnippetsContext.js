@@ -20,11 +20,11 @@ export const SnippetsProvider = ({ children }) => {
   const [userSnippets, setUserSnippets] = useState([]);
   const [likedSnippets, setLikedSnippets] = useState([]);
   const [leaderboard, setLeaderboard] = useState([]);
+  const [popularSnippets, setPopularSnippets] = useState([]);
 
   const { closeModal } = useGlobalContext();
 
   const getPublicSnippets = async (userId, tagId, searchQuery, page) => {
-    
     try {
       const queryPrams = new URLSearchParams();
 
@@ -103,9 +103,10 @@ export const SnippetsProvider = ({ children }) => {
       }
       const res = await axios.get(
         `${serverUrl}/snippets?${queryPrams.toString()}`,
-       {
-        withCredentials: true,
-       });
+        {
+          withCredentials: true,
+        }
+      );
       setUserSnippets(res.data);
       return res.data;
     } catch (error) {
@@ -118,39 +119,64 @@ export const SnippetsProvider = ({ children }) => {
       setLoading(true);
       const queryPrams = new URLSearchParams();
 
-      if(userId){
-        queryPrams.append("userId", userId)
+      if (userId) {
+        queryPrams.append("userId", userId);
       }
-      
-      if(tagId){
-        queryPrams.append("tagId", tagId)
+
+      if (tagId) {
+        queryPrams.append("tagId", tagId);
       }
-      if(search){
-        queryPrams.append("search", search)
+      if (search) {
+        queryPrams.append("search", search);
       }
-      
-      const res = await axios.get(`${serverUrl}/snippets/liked?${queryPrams.toString()}`, {
-        withCredentials: true,
-      });
+
+      const res = await axios.get(
+        `${serverUrl}/snippets/liked?${queryPrams.toString()}`,
+        {
+          withCredentials: true,
+        }
+      );
       setLikedSnippets(res.data.snippets);
       setLoading(false);
       return res.data;
     } catch (error) {
-      console.log("Error in getLikedSnippet", error );
+      console.log("Error in getLikedSnippet", error);
     }
-  }
+  };
+
+  const getPopularSnippets = async (tagId, search) => {
+    setLoading(true);
+    try {
+      const queryParams = new URLSearchParams();
+      if (tagId) {
+        queryParams.append("tagId", tagId);
+      }
+      if (search) {
+        queryParams.append("search", search);
+      }
+
+      const res = await axios.get(
+        `${serverUrl}/snippets/popular?${queryParams.toString()}`
+      );
+      setLoading(false);
+      setPopularSnippets(res.data);
+      return res.data;
+    } catch (error) {
+      console.log("Error in getPopularSnippet", error)
+    }
+  };
 
   const getLeaderboard = async () => {
     setLoading(true);
     try {
-      const res = await axios.get(`${serverUrl}/leaderboard`)
+      const res = await axios.get(`${serverUrl}/leaderboard`);
       setLoading(false);
       setLeaderboard(res.data);
       return res.data;
     } catch (error) {
       console.log("Error in getLeaderboard", error);
     }
-  }
+  };
 
   const deleteSnippet = async (id) => {
     try {
@@ -228,6 +254,7 @@ export const SnippetsProvider = ({ children }) => {
     getPublicSnippets();
     getTags();
     getLeaderboard();
+    getPopularSnippets();
   }, []);
 
   return (
@@ -251,6 +278,8 @@ export const SnippetsProvider = ({ children }) => {
         likedSnippets,
         getLeaderboard,
         leaderboard,
+        popularSnippets,
+        getPopularSnippets,
       }}
     >
       {children}
