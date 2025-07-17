@@ -12,7 +12,13 @@ import { usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 function Categories() {
-  const { tags, getPublicSnippets } = useSnippetContext();
+  const {
+    tags,
+    getPublicSnippets,
+    getUserSnippets,
+    getLikedSnippets,
+    getPopularSnippets,
+  } = useSnippetContext();
   const userId = useUserContext().user?._id;
   const [activeTag, setActiveTag] = useState("All");
   const [activeTagId, setActiveTagId] = useState<string | null>(null);
@@ -27,11 +33,28 @@ function Categories() {
             await getPublicSnippets("", activeTagId);
             break;
 
+          case "/snippets":
+            await getUserSnippets("", activeTagId);
+            break;
+
+          case "/favorites":
+            await getLikedSnippets("", activeTagId);
+            break;
+
+          case "/popular":
+            await getPopularSnippets(activeTagId);
+            break;
+
           default:
             break;
         }
       } else {
         await getPublicSnippets();
+
+        if (userId) {
+          await getUserSnippets();
+          await getLikedSnippets();
+        }
       }
     };
     fetchData();

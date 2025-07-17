@@ -19,13 +19,7 @@ function Header() {
   return (
     <div className="fixed z-20 top-0 w-full px-8 flex items-center justify-between bg-1 border-b-[2px] border-rgba-2 h-[8vh]">
       <Link href="/" className="flex items-center space-x-2 ">
-        <Image
-          className="ml-[1px] bg-white shadow-inner "
-          src="/logo12.png"
-          alt="logo"
-          width={200}
-          height={200}
-        />
+        <h1 className="text-white font-bold text-2xl">Code<sub className="font-medium text-sky-300">Drop</sub></h1>
       </Link>
 
       <div className="lg:flex hidden">

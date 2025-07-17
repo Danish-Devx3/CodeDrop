@@ -92,8 +92,12 @@ export const SnippetsProvider = ({ children }) => {
 
   const getUserSnippets = async (userId, tagId, search) => {
     try {
-      if (!userId) return;
+      
       const queryPrams = new URLSearchParams();
+
+      if(userId){
+        queryPrams.append("userId", userId)
+      }
 
       if (tagId) {
         queryPrams.append("tagId", tagId);

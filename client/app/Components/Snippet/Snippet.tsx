@@ -4,7 +4,14 @@ import { useSnippetContext } from "@/context/SnippetsContext";
 import { useUserContext } from "@/context/userContext";
 import { ISnippet, ITag, IUser } from "@/types/types";
 import { formatDate } from "@/utils/Date";
-import { bookmarkEmpty, copy, edit, heart, heartOutline, trash } from "@/utils/Icons";
+import {
+  bookmarkEmpty,
+  copy,
+  edit,
+  heart,
+  heartOutline,
+  trash,
+} from "@/utils/Icons";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "nextjs-toploader/app";
@@ -19,8 +26,13 @@ interface Props {
 }
 
 function Snippet({ snippet, height = "400px" }: Props) {
-  const { useBtnColorMemo, useTagColorMemo, deleteSnippet, likeSnippet, getPublicSnippet } =
-    useSnippetContext();
+  const {
+    useBtnColorMemo,
+    useTagColorMemo,
+    deleteSnippet,
+    likeSnippet,
+    getPublicSnippets,
+  } = useSnippetContext();
 
   const { openModalForEdit } = useGlobalContext();
   const router = useRouter();
@@ -33,9 +45,9 @@ function Snippet({ snippet, height = "400px" }: Props) {
 
   const userId = useUserContext().user._id;
 
-  const [isLiked, setIsLiked] = useState(snippet.likedBy.includes(userId));
+  const [isLiked, setIsLiked] = useState(Boolean);
   const [likeCount, setLikeCount] = useState(snippet.likedBy.length);
-  const [activeTag, setActiveTag] = useState("")
+  const [activeTag, setActiveTag] = useState("");
 
   const handleLike = () => {
     if (!userId) {
@@ -47,12 +59,13 @@ function Snippet({ snippet, height = "400px" }: Props) {
     likeSnippet(snippet._id);
   };
 
-
-  useEffect(()=>{
-    if(activeTag){
-      getPublicSnippet("", activeTag)
+  useEffect(() => {
+    if (activeTag) {
+      getPublicSnippets("", activeTag);
     }
-  })
+    setIsLiked(snippet.likedBy.includes(userId));
+  }, [snippet.likedBy, userId, activeTag, getPublicSnippets]);
+
 
   return (
     <div className="shadow-sm flex flex-col border-2 border-rgba-3 rounded-lg">
@@ -144,7 +157,9 @@ function Snippet({ snippet, height = "400px" }: Props) {
           </div>
           <button
             onClick={handleLike}
-            className={`flex flex-col items-center text-2xl text-gray-300 transition-bg duration-300 ease-in-out ${isLiked && "text-red-500"} `}
+            className={`flex flex-col items-center text-2xl text-gray-300 transition-bg duration-300 ease-in-out ${
+              isLiked && "text-red-500"
+            } `}
           >
             <span>{isLiked ? heart : heartOutline}</span>
             <span className="text-sm font-bold text-gray-300">
@@ -156,11 +171,14 @@ function Snippet({ snippet, height = "400px" }: Props) {
 
         <div className="pt-2 pb-3 flex justify-between">
           <ul className="flex items-start gap-2 flex-wrap">
-            {snippet?.tags.map((tag:ITag) => {
+            {snippet?.tags.map((tag: ITag) => {
               return (
                 <li
-                  style={{ background: activeTag === tag._id ? "#7263f3" : useTagColorMemo }}
-                  onClick={()=>setActiveTag(tag._id)}
+                  style={{
+                    background:
+                      activeTag === tag._id ? "#7263f3" : useTagColorMemo,
+                  }}
+                  onClick={() => setActiveTag(tag._id)}
                   className="tag-item px-4 py-1 border border-rgba-2 text-gray-300 rounded-md cursor-pointer "
                 >
                   {tag.name}

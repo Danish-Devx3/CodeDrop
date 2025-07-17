@@ -57,7 +57,7 @@ function page() {
   }, []);
   return (
     <main className="p-8">
-      <h1 className="text-3xl text-white text-center font-bold">{leaderboard[0]?.name}Leaderboard</h1>
+      <h1 className="text-3xl text-white text-center font-bold">Leaderboard</h1>
               
 
       <table className="w-full mt-8">

@@ -176,12 +176,14 @@ export const updateUser = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
 
   if (user) {
-    // user properties to update
-    const { name, bio, photo } = req.body;
+
     // update user properties
     user.name = req.body.name || user.name;
     user.bio = req.body.bio || user.bio;
     user.photo = req.body.photo || user.photo;
+    user.publicEmail = req.body.publicEmail || user.publicEmai;
+    user.github = req.body.github || user.gitHub;
+    user.linkedin = req.body.linkedin || user.linkedin;
 
     const updated = await user.save();
 
@@ -193,6 +195,9 @@ export const updateUser = asyncHandler(async (req, res) => {
       photo: updated.photo,
       bio: updated.bio,
       isVerified: updated.isVerified,
+      publicEmail: updated.publicEmail,
+      github: updated.gitHub,
+      linkedin: updated.linkedin,
     });
   } else {
     // 404 Not Found

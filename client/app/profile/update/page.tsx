@@ -2,15 +2,33 @@
 import { useUserContext } from "@/context/userContext";
 import { envelope, github, linkedin } from "@/utils/Icons";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 
 function page() {
-  const { user, updateUser, changePassword, userState } = useUserContext();
+  const { user, updateUser, changePassword, userState, handlerUserInput } = useUserContext();
+
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+
+  const managePassword = async (e: any) => {
+    if(e.target.name==="oldPassword") {
+      setOldPassword(e.target.value);
+    } else {
+      setNewPassword(e.target.value)
+    }
+
+
+    
+  }
 
   return (
-    <main className="h-[92vh] relative flex justify-center ">
+    <main className="h-[90vh] relative flex justify-center items-center">
       <form
         action=""
+        onSubmit={(e)=>{
+          e.preventDefault();
+          updateUser(e, userState)
+        }}
         className=" u-shadow-2 px-8 mx-8 my-8 py-8 bg-1 rounded-lg max-w-[1200px] w-full "
       >
         <label htmlFor="file-ipload" className="text-gray-200">
@@ -48,7 +66,7 @@ function page() {
                 name="github"
                 type="text"
                 defaultValue={user?.github}
-                //onChange={(e) => handlerUserInput("github")(e)}
+                onChange={(e) => handlerUserInput("github")(e)}
                 placeholder="Github"
                 className="w-full py-[.8rem] pl-[3.2rem] pr-[1rem] text-gray-200 bg-transparent border-[2px] border-rgba-2 rounded-md outline-none"
               />
@@ -67,7 +85,7 @@ function page() {
                 name="linkedin"
                 type="text"
                 defaultValue={user?.linkedin}
-                //onChange={(e) => handlerUserInput("linkedin")(e)}
+                onChange={(e) => handlerUserInput("linkedin")(e)}
                 placeholder="Linkedin"
                 className="w-full py-[.8rem] pl-[3.2rem] pr-[1rem] text-gray-200 bg-transparent border-[2px] border-rgba-2 rounded-md outline-none"
               />
@@ -85,7 +103,7 @@ function page() {
                 name="publicEmail"
                 type="email"
                 defaultValue={user?.publicEmail}
-                //onChange={(e) => handlerUserInput("publicEmail")(e)}
+                onChange={(e) => handlerUserInput("publicEmail")(e)}
                 placeholder="Public Email"
                 className="w-full py-[.8rem] pl-[3.2rem] pr-[1rem] text-gray-200 bg-transparent border-[2px] border-rgba-2 rounded-md outline-none"
               />
@@ -129,6 +147,7 @@ function page() {
                 name="bio"
                 id="bio"
                 defaultValue={user?.bio}
+                onChange={(e)=>handlerUserInput("bio")(e)}
                 className=" resize-none py-4 pl-4 pr-1 text-gray-200 bg-transparent border-[2px] border-rgba-2 rounded-md outline-none focus:border-[#6fcf97] "
               />
             </div>
@@ -141,6 +160,8 @@ function page() {
                   type="password"
                   id="oldPassword"
                   name="oldPassword"
+                  value={oldPassword}
+                  onChange={managePassword}
                   className="w-full py-[.8rem] pl-4 pr-1 text-gray-200 bg-transparent border-[2px] border-rgba-2 rounded-md outline-none focus:border-[#6fcf97]"
                 />
               </div>
@@ -152,13 +173,29 @@ function page() {
                   type="password"
                   id="newPassword"
                   name="newPassword"
+                  value={newPassword}
+                  onChange={managePassword}
                   className="w-full py-[.8rem] pl-4 pr-1 text-gray-200 bg-transparent border-[2px] border-rgba-2 rounded-md outline-none focus:border-[#6fcf97]"
                 />
               </div>
             </div>
           </div>
         </div>
-        <div className="mt-6 flex gap-4 justify-end"></div>
+        <div className="mt-6 flex gap-4 justify-end">
+          <button
+            type="button"
+            onClick={()=>changePassword(oldPassword, newPassword)}
+            className="py-4 px-8 mt- h-[50px] flex justify-center items-center bg-red-500 text-white rounded-md hover:bg-red-500/80 transition-all duration-300 ease-in-out"
+          >
+            Update Password
+          </button>
+          <button
+            type="submit"
+            className="py-4 px-8 mt- h-[50px] flex justify-center items-center bg-sky-500 text-white rounded-md hover:bg-sky-500/80 transition-all duration-300 ease-in-out"
+          >
+            Update Profile
+          </button>
+        </div>
       </form>
     </main>
   );

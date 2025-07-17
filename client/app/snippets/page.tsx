@@ -28,7 +28,7 @@ function page() {
         
       {
         userSnippets?.snippets?.map((snippet: ISnippet) => {
-            return <Snippet snippet={snippet} />
+            return <Snippet key={snippet._id} snippet={snippet} />
         })
       }
 

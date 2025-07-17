@@ -18,6 +18,19 @@ const UserSchema = new mongoose.Schema(
         "Please add a valid email",
       ],
     },
+
+    publicEmail:{
+      type: String,
+    },
+
+    github: {
+      type: String,
+    },
+    
+    linkedin: {
+      type: String,
+    },
+
     password: {
       type: String,
       required: [true, "Please add password!"],
