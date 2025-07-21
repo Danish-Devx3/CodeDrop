@@ -3,7 +3,7 @@
 @tailwind utilities;
 @layer base {
   :root {
-    --radius:0.5rem;
+    --radius: 0.5rem;
   }
 }
 :root {
@@ -34,8 +34,12 @@ body {
   height: 100%;
 }
 
-h1, h2, h3, h4, p {
-  @apply text-white text-base text-gray-300;
+h1,
+h2,
+h3,
+h4,
+p {
+  @apply text-base text-gray-300;
 }
 
 .auth-page {
@@ -114,6 +118,21 @@ h1, h2, h3, h4, p {
   height: 100%;
   background-color: var(--color--rgba-4);
   transition: width 0.3s ease-in-out;
+}
+
+.active-dot {
+  position: relative;
+}
+.active-dot::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  width: 7px;
+  height: 7px;
+  background-color: #7263f3;
+  border-radius: 50%;
 }
 
 .sidebar-nav-item:hover::after {

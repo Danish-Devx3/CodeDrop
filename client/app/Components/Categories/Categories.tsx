@@ -62,7 +62,7 @@ function Categories() {
 
   return (
     <div className="fixed w-full z-10">
-      <div className="pl-14 pr-[14rem] py-3 w-full bg-3 border-b-2 border-rgba-2 ">
+      <div className="pl-14 py-3 w-full bg-3 border-b-2 border-rgba-2 ">
         <Carousel className="w-full  lg:max-w-[1200px] xl:max-w-[1450px] ">
           <CarouselContent className="flex gap-4">
             <CarouselItem
@@ -96,8 +96,6 @@ function Categories() {
               );
             })}
           </CarouselContent>
-          <CarouselPrevious className="bg-red-500" />
-          <CarouselNext className="bg-red-500" />
         </Carousel>
       </div>
     </div>
