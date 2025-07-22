@@ -7,7 +7,7 @@ export const createSnippet = asyncHandler(async (req, res) => {
   try {
     const userId = req.user._id;
     const { title, description, code, language, tags, isPublic } = req.body;
-    console.log(req.body)
+    console.log(req.body);
     if (!userId) {
       return res.status(401).json({ message: "Unauthorized! Please login" });
     }
@@ -296,8 +296,8 @@ export const getUserLikedSnippets = asyncHandler(async (req, res) => {
 
     if (search) {
       query.$or = [
-        { title: { $regex: search, options: "i" } },
-        { description: { $regex: search, options: "i" } },
+        { title: { $regex: new RegExp(search, "i") } },
+        { description: { $regex: new RegExp(search, "i") } },
       ];
     }
 
@@ -407,7 +407,7 @@ export const getPopularSnippets = asyncHandler(async (req, res) => {
       totalSnippet: popularSnippets.length,
       totalPages: Math.ceil(popularSnippets.length / limit),
       snippets: topSnippets,
-    })
+    });
   } catch (error) {
     console.log("Error in getPopularSnippets", error);
     return res.status(500).json({ message: "Internal Server Error" });

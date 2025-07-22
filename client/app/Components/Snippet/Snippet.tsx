@@ -16,6 +16,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "nextjs-toploader/app";
 import React, { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import SyntaxHighlighter from "react-syntax-highlighter";
 
 import { vs2015 } from "react-syntax-highlighter/dist/esm/styles/hljs";
@@ -99,6 +100,10 @@ function Snippet({ snippet, height = "400px" }: Props) {
           <button
             className="w-10 h-10 rounded-md text-green-400 text-lg flex items-center justify-center "
             style={{ background: useBtnColorMemo }}
+            onClick={() => {
+              navigator.clipboard.writeText(codeString);
+              toast.success("Code copied to clipboard");
+            }}
           >
             {copy}
           </button>

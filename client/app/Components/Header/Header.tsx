@@ -64,6 +64,7 @@ function Header() {
               alt="pfp"
               width={35}
               height={35}
+              onClick={openProfileModal}
               className="rounded-lg cursor-pointer"
             />
           </button>

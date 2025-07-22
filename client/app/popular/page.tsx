@@ -17,6 +17,12 @@ function page() {
                 return <Snippet key={snippet._id} snippet={snippet} />
             } )}
         </div>
+
+        {popularSnippets.snippets?.length === 0 && (
+      <div className='flex items-center justify-center h-[60vh]'>
+        <h1 className='text-4xl text-red-500'>No snippet found</h1>
+      </div>
+    )}
     </main>
   )
 }

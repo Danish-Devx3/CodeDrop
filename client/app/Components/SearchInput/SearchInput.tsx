@@ -1,6 +1,10 @@
 "use client";
+import { useSnippetContext } from "@/context/SnippetsContext";
 import SearchIcon from "@/public/Icons/SearchIcon";
-import React from "react";
+import React, { useCallback, useEffect } from "react";
+import lodash from 'lodash'
+import { usePathname } from "next/navigation";
+import { useUserContext } from "@/context/userContext";
 
 interface Props {
   wFull?: boolean;
@@ -8,7 +12,56 @@ interface Props {
 
 function SearchInput({ wFull }: Props) {
   const [searchQuery, setSearchQuery] = React.useState("");
+  const {
+    getPublicSnippets,
+    getPopularSnippets,
+    getLikedSnippets,
+    getUserSnippets,
+    getLeaderboard,
+  } = useSnippetContext();
+  const pathname = usePathname();
+  const userId = useUserContext().user?._id;
 
+  const debouncedSearchQuery = useCallback(
+    lodash.debounce((query:string)=>{
+      if(query){
+        switch (pathname) {
+          case "/":
+            getPublicSnippets("", "", query);
+            break;
+          case "/popular":
+            getPopularSnippets("", query);
+            break;
+          case "/favorites":
+            getLikedSnippets("", "", query);
+            break;
+
+          case "/snippets":
+            getUserSnippets("", "", query);
+            break;
+        }
+      }else{
+        getPublicSnippets();
+        getPopularSnippets();
+        
+        if(userId){
+          getUserSnippets();
+          getLikedSnippets();
+        }
+        getLeaderboard();
+      }
+    }, 500), [pathname]
+  )
+
+  
+
+  useEffect(()=>{
+    debouncedSearchQuery(searchQuery);
+  return () => {
+      debouncedSearchQuery.cancel();
+    };
+  }, [searchQuery, debouncedSearchQuery]);
+  
   return (
     <form
       className={`relative flex gap-2 overflow-hidden ${
