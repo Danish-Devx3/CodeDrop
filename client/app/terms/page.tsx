@@ -2,8 +2,6 @@
 import HelpSidebar from "@/components/HelpSidebar";
 import React from "react";
 import { motion } from "framer-motion";
-import { animateY } from "@/utils/Animation";
-
 
 function page() {
   const terms = [
@@ -87,7 +85,18 @@ function page() {
               className={`py-4 px-6 border-rgba-3 ${
                 terms.length - 1 === index ? "border-b-mone" : "border-b-[1px]"
               }`}
-              variants={animateY}
+              variants={{
+                hidden: { opacity: 0, y: 200 },
+                visible: {
+                  opacity: 1,
+                  y: 1,
+                  transition: {
+                    duration: 0.6,
+                    ease: "easeInOut",
+                    type: "spring",
+                  },
+                },
+              }}
               initial="hidden"
               animate="visible"
             >

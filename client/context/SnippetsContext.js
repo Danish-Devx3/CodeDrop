@@ -12,7 +12,7 @@ import { useGlobalContext } from "./globalContext";
 const SnippetsContext = createContext();
 
 export const SnippetsProvider = ({ children }) => {
-  const serverUrl = "http://localhost:8000/api/v1";
+  const serverUrl = "https://codedrop-5z74.onrender.com/api/v1";
 
   const [publicSnippets, setPublicSnippets] = useState([]);
   const [tags, setTags] = useState([]);

@@ -1,11 +1,8 @@
-"use client"
+"use client";
 import HelpSidebar from "@/components/HelpSidebar";
 import React from "react";
-import {motion } from 'framer-motion'
-import { animateY } from "@/utils/Animation";
-
+import { motion } from "framer-motion";
 function page() {
-
   const privacyPolicy = [
     {
       heading: "Introduction",
@@ -69,7 +66,7 @@ function page() {
       text: "If you have any questions about this privacy policy, please contact us at support@fictionalsnippetapp.com.",
     },
   ];
-  
+
   return (
     <div>
       <div className="py-[5rem] flex flex-col gap-1 items-center">
@@ -77,30 +74,43 @@ function page() {
         <p>We do not share your information with any third-party.</p>
       </div>
       <div className="flex">
-        <HelpSidebar/>
+        <HelpSidebar />
         <div className="px-8 py-10 flex-1 flex flex-col gap-4 bg-2 rounded-tr-md rounded-br-md">
           {privacyPolicy.map((item, idx) => (
-            <motion.div 
-              key={idx} 
+            <motion.div
+              key={idx}
               className={`py-4 px-6  border-rgba-3 ${
-                privacyPolicy.length-1  === idx ? 'border-b-none' : 'border-b-[1px]'
+                privacyPolicy.length - 1 === idx
+                  ? "border-b-none"
+                  : "border-b-[1px]"
               }`}
-              variants={animateY}
+              variants={{
+                hidden: { opacity: 0, y: 200 },
+                visible: {
+                  opacity: 1,
+                  y: 1,
+                  transition: {
+                    duration: 0.6,
+                    ease: "easeInOut",
+                    type: "spring",
+                  },
+                },
+              }}
               initial="hidden"
               animate="visible"
-              >
-               <h2 className="font-bold text-lg text-gray-200">
+            >
+              <h2 className="font-bold text-lg text-gray-200">
                 {item.heading}
-               </h2>
-               <p className="mt-2">{item.text}</p>
+              </h2>
+              <p className="mt-2">{item.text}</p>
 
-               {item.list && (
+              {item.list && (
                 <ul className="mt-2 ml-8 list-disc text-gray-300">
-                  {item.list.map((li, idx)=>(
+                  {item.list.map((li, idx) => (
                     <li key={idx}>{li}</li>
                   ))}
                 </ul>
-               )}
+              )}
             </motion.div>
           ))}
         </div>

@@ -3,7 +3,6 @@ import HelpSidebar from "@/components/HelpSidebar";
 import { plus } from "@/utils/Icons";
 import React, { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { animateY } from "@/utils/Animation";
 
 function page() {
   const faq = [
@@ -76,28 +75,44 @@ function page() {
         <div className="px-8 py-10 flex-1 flex flex-col gap-4 bg-2 rounded-tr-md rounded-br-md">
           {faq.map((item, idx) => (
             <motion.div
-              variants={animateY}
+              variants={{
+                hidden: { opacity: 0, y: 200 },
+                visible: {
+                  opacity: 1,
+                  y: 1,
+                  transition: {
+                    duration: 0.6,
+                    ease: "easeInOut",
+                    type: "spring",
+                  },
+                },
+              }}
               initial="hidden"
               animate="visible"
               key={idx}
-              onClick={()=>toggleFaq(idx)}
+              onClick={() => toggleFaq(idx)}
               className="p-4 flex-col  gap-2 bg-1 border-[2px] border-rgba-3 rounded-md cursor-pointer shadow-sm"
             >
               <motion.h2 className="flex justify-between items-center font-bold text-lg">
                 <span className="text-gray-200 font-bold">{item.question}</span>
                 <motion.span
-                 initial={false}
-                 animate={{rotate: openIdx===idx ? 45 : 0}}
-                >{plus}</motion.span>
+                  initial={false}
+                  animate={{ rotate: openIdx === idx ? 45 : 0 }}
+                >
+                  {plus}
+                </motion.span>
               </motion.h2>
               <AnimatePresence>
-                {openIdx===idx && (
+                {openIdx === idx && (
                   <motion.p
-                   initial={{opacity: 0, height: 0}}
-                   animate={{opacity: 1, height: 'auto'}}
-                   exit={{opacity: 0, height: 0}}
-                   transition={{duration: 0.3}}
-                   className="text-gray-300">{item.answer}</motion.p>
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="text-gray-300"
+                  >
+                    {item.answer}
+                  </motion.p>
                 )}
               </AnimatePresence>
             </motion.div>
