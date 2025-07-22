@@ -45,7 +45,7 @@ function page({ params: { id } }: Props) {
       })();
     }
   }, [createrId]);
-  console.log(snippets)
+  
   return (
     <main className="p-8">
       <section className="py-8 px-[12rem] bg-2 rounded-lg ">

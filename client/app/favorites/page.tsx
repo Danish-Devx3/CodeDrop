@@ -19,7 +19,7 @@ function page() {
     })();
   }, [userId]);
 
-  console.log(likedSnippets);
+  
 
   return (
     <main>

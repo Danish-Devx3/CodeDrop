@@ -90,7 +90,7 @@ function AddSnippetModal() {
       isPublic,
       tags: activeTags.map((tag:ITag)=>tag._id),
     };
-      console.log(snippetData.tags)
+      
       if(modalMode === "edit-snippet"){
           updateSnippet(snippetData);
           closeModal()
