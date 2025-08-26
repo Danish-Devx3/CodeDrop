@@ -12,7 +12,8 @@ import { useGlobalContext } from "./globalContext";
 const SnippetsContext = createContext();
 
 export const SnippetsProvider = ({ children }) => {
-  const serverUrl = "http://localhost:8000/api/v1";
+  const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL+"/api/v1" || "http://localhost:8000/api/v1";
+  console.log(serverUrl)
 
   const [publicSnippets, setPublicSnippets] = useState([]);
   const [tags, setTags] = useState([]);
