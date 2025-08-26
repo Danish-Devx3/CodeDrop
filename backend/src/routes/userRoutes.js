@@ -31,7 +31,7 @@ router.get("/logout", logoutUser);
 router.get("/user", protect, getUser);
 router.patch("/user", protect, updateUser);
 
-router.get("/user/:id", protect, getUserById )
+router.get("/user/:id", getUserById);
 
 // admin route
 router.delete("/admin/users/:id", protect, adminMiddleware, deleteUser);

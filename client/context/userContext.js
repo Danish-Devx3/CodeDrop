@@ -9,7 +9,7 @@ const UserContext = React.createContext();
 axios.defaults.withCredentials = true;
 
 export const UserContextProvider = ({ children }) => {
-  const serverUrl = "https://codedrop-5z74.onrender.com";
+  const serverUrl = "http://localhost:8000";
 
   const router = useRouter();
 
@@ -118,6 +118,8 @@ export const UserContextProvider = ({ children }) => {
       });
 
       toast.success("User logged out successfully");
+
+      setUser({});
 
       // redirect to login page
       router.push("/login");

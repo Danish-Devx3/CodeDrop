@@ -2,10 +2,12 @@
 import Snippet from "@/app/Components/Snippet/Snippet";
 import { useSnippetContext } from "@/context/SnippetsContext";
 import { useUserContext } from "@/context/userContext";
+import useRedirect from "@/hooks/useUserRedirect";
 import { ISnippet, IUser } from "@/types/types";
 import { joinedOn } from "@/utils/Date";
 import { envelope, github, linkedin } from "@/utils/Icons";
 import Link from "next/link";
+import { useRouter } from "nextjs-toploader/app";
 import React, { useEffect, useState } from "react";
 
 interface Props {
