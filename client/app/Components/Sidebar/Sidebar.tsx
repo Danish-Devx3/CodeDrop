@@ -124,7 +124,7 @@ function Sidebar() {
               <Link className='underline text-sm hover:text-green-400' href={"/help"}>Help</Link>
             </li>
           </ul>
-          <p className='text-center text-sm mt-4'>&copy; {new Date().getFullYear()} <Link href={"/"}>Danish Dev</Link> All&nbsp;rights</p>
+          <p className='text-center text-sm mt-4'>&copy; {new Date().getFullYear()} <Link href={"https://danish-portfolio-be.netlify.app/"} target='_blank' >Danish Dev</Link> All&nbsp;rights</p>
           </footer>}
       </nav>
 

@@ -9,26 +9,32 @@
 }
 
 :root {
-  --color--bg-0: #fbfbfd;
-  --color--bg-1: #252525;
-  --color--bg-2: #212121;
-  --color--bg-3: #181818;
-  --color--bg-4: #1a1a1a;
-  --color--bg-5: #0f1217;
-  --color--green-light: #27ae60;
-  --color--green-dark: #dbe1e8;
-  --color--grey-0: #f8f8f8;
-  --color--grey-0: #dbe1e8;
-  --color--grey-1: #b2becd;
-  --color--grey-2: #6c7983;
-  --color--grey-3: #454e56;
-  --color--grey-4: #2a2e35;
-  --color--grey-5: #12181b;
-  --color--rgba-0: rgba(255, 255, 255, 0.3);
-  --color--rgba-1: rgba(255, 255, 255, 0.2);
-  --color--rgba-2: rgba(255, 255, 255, 0.1);
-  --color--rgba-3: rgba(255, 255, 255, 0.05);
-  --color--rgba-4: rgba(255, 255, 255, 0.02);
+  /* Background layers */
+  --color--bg-0: #f7f8fa;   /* very light surface (kept light as original) */
+  --color--bg-1: #252525;   /* main dark background */
+  --color--bg-2: #202225;   /* section background (slightly tuned) */
+  --color--bg-3: #181818;   /* card / panel */
+  --color--bg-4: #1a1a1a;   /* elevated surface */
+  --color--bg-5: #0d1114;   /* deepest background / modals */
+
+  /* Greens (accent) */
+  --color--green-light: #27ae60; /* vibrant accent (kept) */
+  --color--green-dark:  #16693f; /* darker, usable for borders/hover */
+
+  /* Greys (neutral scale) */
+  --color--grey-0: #f4f6f8; /* very light neutral (fixed duplicate) */
+  --color--grey-1: #b6c0cb; /* soft light grey */
+  --color--grey-2: #6c7983; /* medium muted */
+  --color--grey-3: #454e56; /* mid-dark text color */
+  --color--grey-4: #2a2e35; /* border / divider */
+  --color--grey-5: #12181b; /* near-black for very dark text/background */
+
+  /* Opacity helpers (refined steps) */
+  --color--rgba-0: rgba(255, 255, 255, 0.36);
+  --color--rgba-1: rgba(255, 255, 255, 0.24);
+  --color--rgba-2: rgba(255, 255, 255, 0.14);
+  --color--rgba-3: rgba(255, 255, 255, 0.06);
+  --color--rgba-4: rgba(255, 255, 255, 0.03);
 }
 
 body {

@@ -2,7 +2,6 @@
 import Snippet from "@/app/Components/Snippet/Snippet";
 import { useSnippetContext } from "@/context/SnippetsContext";
 import { useUserContext } from "@/context/userContext";
-import useRedirect from "@/hooks/useUserRedirect";
 import { ISnippet, IUser } from "@/types/types";
 import { joinedOn } from "@/utils/Date";
 import { envelope, github, linkedin } from "@/utils/Icons";
@@ -19,10 +18,18 @@ interface Props {
 function page({ params: { id } }: Props) {
   const [createrData, setCreaterData] = useState({} as IUser);
   const { getPublicSnippets } = useSnippetContext();
-  const { getUserById } = useUserContext();
+  const { getUserById, user } = useUserContext();
   const createrId = id.split("-").at(-1);
 
   const [snippets, setSnippets] = useState([]);
+
+  const userId = user._id;
+  const router = useRouter();
+
+  if(!userId){
+    router.push("/login")
+  }
+
 
   useEffect(() => {
     (async () => {
