@@ -4,7 +4,6 @@ import { useUserContext } from '@/context/userContext';
 
 
 import { arrowLeft, bars, bookmarkIcon, box, fire, gear, help, home, users } from '@/utils/Icons';
-import { getFontOverrideCss } from 'next/dist/server/font-utils';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useRouter } from 'nextjs-toploader/app';
@@ -71,7 +70,7 @@ function Sidebar() {
   }
 
   return ( 
-    <div className={`fixed z-20 bg-2 h-full ${isSidebarOpen ? 'w-[15rem]' : 'w-[5.2rem]'} border-r-[2px] border-rgba-3`}>
+    <div className={`fixed z-20 bg-2 h-full ${isSidebarOpen ? 'w-[12rem]' : 'w-[3.2rem]'} border-r-[2px] border-rgba-3`}>
       <span className='u-shadow-2 bg-2 w-[45px] py-[0.8rem] absolute z-50 top-[21px] right-[-47px] cursor-pointer text-xl text-gray-400 flex items-center justify-center rounded-tr-lg rounded-br-lg  '
        onClick={()=> setIsSidebarOpen(!isSidebarOpen)}
       >{isSidebarOpen ? arrowLeft : bars}</span>
@@ -81,11 +80,11 @@ function Sidebar() {
             {
               menu.slice(0,-2).map((item)=>{
                 return (
-                  <li className={`sidebar-nav-item my-[.3rem] px-8 py-[.6rem] cursor-pointer ${pathname === item.url ? "active-nav-item" : "" }`} key={item.id}
+                  <li className={`sidebar-nav-item my-[.3rem] px-4 py-[.6rem] cursor-pointer ${pathname === item.url ? "active-nav-item" : "" }`} key={item.id}
                    onClick={()=> router.push(item.url)}
                   >
                     <Link className='grid grid-cols-[40px_1fr] items-center text-gray-200' href={item.url}>
-                       <span style={{color: getIconColor(item.url)}} className='text-lg'>{item.icon}</span>
+                       <span style={{color: getIconColor(item.url)}} className=''>{item.icon}</span>
                        <span>{item.name}</span>
                     </Link>
                   </li>
@@ -98,11 +97,11 @@ function Sidebar() {
             {
               menu.slice(-2).map((item)=>{
                 return (
-                  <li className={`sidebar-nav-item my-[.3rem] px-8 py-[.6rem] cursor-pointer ${pathname === item.url ? "active-nav-item" : "" }`} key={item.id}
+                  <li className={`sidebar-nav-item my-[.3rem] px-4 py-[.6rem] cursor-pointer ${pathname === item.url ? "active-nav-item" : "" }`} key={item.id}
                    onClick={()=> router.push(item.url)}
                   >
                     <Link className='grid grid-cols-[40px_1fr] items-center text-gray-200' href={item.url}>
-                       <span style={{color: getIconColor(item.url)}} className='text-lg'>{item.icon}</span>
+                       <span style={{color: getIconColor(item.url)}} className=''>{item.icon}</span>
                        <span>{item.name}</span>
                     </Link>
                   </li>
