@@ -23,8 +23,8 @@ function SearchInput({ wFull }: Props) {
   const userId = useUserContext().user?._id;
 
   const debouncedSearchQuery = useCallback(
-    lodash.debounce((query:string)=>{
-      if(query){
+    lodash.debounce((query: string) => {
+      if (query) {
         switch (pathname) {
           case "/":
             getPublicSnippets("", "", query);
@@ -40,11 +40,11 @@ function SearchInput({ wFull }: Props) {
             getUserSnippets("", "", query);
             break;
         }
-      }else{
+      } else {
         getPublicSnippets();
         getPopularSnippets();
-        
-        if(userId){
+
+        if (userId) {
           getUserSnippets();
           getLikedSnippets();
         }
@@ -53,37 +53,35 @@ function SearchInput({ wFull }: Props) {
     }, 500), [pathname]
   )
 
-  
 
-  useEffect(()=>{
+
+  useEffect(() => {
     debouncedSearchQuery(searchQuery);
-  return () => {
+    return () => {
       debouncedSearchQuery.cancel();
     };
   }, [searchQuery, debouncedSearchQuery]);
-  
+
   return (
     <form
-      className={`relative flex gap-2 overflow-hidden ${
-        wFull ? "w-full" : "md:w-[580px]"
-      }`}
+      className={`relative flex gap-2 overflow-hidden ${wFull ? "w-full" : "md:w-[580px]"
+        }`}
     >
-      <div className="absolute top-[50%] left-3 translate-y-[-50%] ">
-        <SearchIcon stroke="rgba(249,249,249,0.6)" />
+      <div className="absolute top-[50%] left-3 translate-y-[-50%] text-muted-foreground">
+        <SearchIcon />
       </div>
 
       <input
-        className={`pl-10 pr-2 py-2 bg-2 text-gray-200 font-medium border-[2px] border-rgba-2 rounded-lg outline-none transition-all duration-300 ease-in-out focus:w-full focus:border-rgba-0 ${
-          wFull ? "w-full" : "w-[90%]"
-        }`}
-        onChange={(e)=>setSearchQuery(e.target.value)}
+        className={`pl-10 pr-2 py-2 bg-secondary text-foreground font-medium border border-transparent focus:border-border rounded-lg outline-none transition-all duration-300 ease-in-out focus:w-full ${wFull ? "w-full" : "w-[90%]"
+          }`}
+        onChange={(e) => setSearchQuery(e.target.value)}
         value={searchQuery}
         type="text"
       />
       {!searchQuery && (
-        <span className="absolute top-[50%] left-10 translate-y-[-50%] text-gray-400 pointer-events-none text-nowrap ">
-        Search for snippets e.g. Nested Loops etc.
-      </span>
+        <span className="absolute top-[50%] left-10 translate-y-[-50%] text-muted-foreground pointer-events-none text-nowrap ">
+          Search for snippets e.g. Nested Loops etc.
+        </span>
       )}
     </form>
   );

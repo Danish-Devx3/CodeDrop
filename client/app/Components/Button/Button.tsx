@@ -11,7 +11,7 @@ interface Props {
 
 function Button({ className, onClick, children, style, type }: Props) {
   const defaultClasses =
-    "h-[42px] px-4 flex items-center justify-center rounded-lg font-semibold hover:bg-white/80 transition duration-200 ease-in-out";
+    "h-[42px] px-4 flex items-center justify-center rounded-lg font-semibold hover:opacity-90 transition duration-200 ease-in-out";
   return (
     <button
       onClick={onClick}
@@ -19,7 +19,7 @@ function Button({ className, onClick, children, style, type }: Props) {
       type={type || "button"}
       className={clsx(defaultClasses, className)}
     >
-        {children}
+      {children}
     </button>
   );
 }

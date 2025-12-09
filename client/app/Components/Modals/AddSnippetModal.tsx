@@ -78,8 +78,8 @@ function AddSnippetModal() {
       setActiveTags([...activeTags, tag]);
     }
   };
-  
-  const handleSubmit = (e:React.FormEvent) => {
+
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const snippetData = {
       _id: activeSnippet?._id || "",
@@ -88,43 +88,43 @@ function AddSnippetModal() {
       code,
       language,
       isPublic,
-      tags: activeTags.map((tag:ITag)=>tag._id),
+      tags: activeTags.map((tag: ITag) => tag._id),
     };
-      
-      if(modalMode === "edit-snippet"){
-          updateSnippet(snippetData);
-          closeModal()
-      }else if(modalMode === "add-snippet"){
-        const res = createSnippet(snippetData);
-        if(res._id){
-          closeModal();
-          resetForm();
-        }
+
+    if (modalMode === "edit-snippet") {
+      updateSnippet(snippetData);
+      closeModal()
+    } else if (modalMode === "add-snippet") {
+      const res = createSnippet(snippetData);
+      if (res._id) {
+        closeModal();
+        resetForm();
       }
     }
+  }
 
-    useEffect(()=>{
-      if(modalMode === "edit-snippet" && activeSnippet){
-        setActiveTags(activeSnippet.tags);
-        setTitle(activeSnippet.title)
-        setDescription(activeSnippet.description)
-        setCode(activeSnippet.code)
-        setLanguage(activeSnippet.language)
-        setIsPublic(activeSnippet.isPublic)
-      }
-    },[modalMode, activeSnippet])
+  useEffect(() => {
+    if (modalMode === "edit-snippet" && activeSnippet) {
+      setActiveTags(activeSnippet.tags);
+      setTitle(activeSnippet.title)
+      setDescription(activeSnippet.description)
+      setCode(activeSnippet.code)
+      setLanguage(activeSnippet.language)
+      setIsPublic(activeSnippet.isPublic)
+    }
+  }, [modalMode, activeSnippet])
 
   return (
-    <div className="fixed top-0 left-0 z-40 h-full w-full bg-[#000]/30 backdrop-blur-sm bg-opacity-50 overflow-hidden ">
+    <div className="fixed top-0 left-0 z-40 h-full w-full bg-black/50 backdrop-blur-sm overflow-hidden flex items-center justify-center">
       <div
         ref={ref}
-        className="py-5 px-6 max-w-[920px] w-full bg-3 flex flex-col gap-4 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg shadow-sm"
+        className="py-5 px-6 max-w-[920px] w-full bg-card border border-border flex flex-col gap-4 relative rounded-lg shadow-xl max-h-[90vh] overflow-y-auto"
       >
         <form
-          
-         onSubmit={handleSubmit}
-         action="" className="flex flex-col gap-4">
-          <h1 className="text-white text-xl font-bold ">
+
+          onSubmit={handleSubmit}
+          action="" className="flex flex-col gap-4">
+          <h1 className="text-card-foreground text-xl font-bold ">
             {modalMode === "edit-snippet" ? (
               <span className="flex items-center gap-4">
                 {edit} Edit Snippet
@@ -143,7 +143,7 @@ function AddSnippetModal() {
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="Title"
-                className="w-full h-10 bg-4 p-2 rounded-lg text-white"
+                className="w-full h-10 bg-input p-2 rounded-lg text-foreground border border-transparent focus:border-ring outline-none"
               />
             </div>
             <div>
@@ -151,7 +151,7 @@ function AddSnippetModal() {
                 name="language"
                 value={language}
                 onChange={(e) => setLanguage(e.target.value)}
-                className="w-full h-10 px-4 bg-1 text-white rounded-lg cursor-pointer"
+                className="w-full h-10 px-4 bg-input text-foreground rounded-lg cursor-pointer border border-transparent focus:border-ring outline-none"
               >
                 {languages.map((lang) => {
                   return (
@@ -167,7 +167,7 @@ function AddSnippetModal() {
                 name="isPublic"
                 value={isPublic.toString()}
                 onChange={(e) => setIsPublic(e.target.value === "true")}
-                className="w-full h-10 px-4 bg-1 text-white rounded-lg cursor-pointer"
+                className="w-full h-10 px-4 bg-input text-foreground rounded-lg cursor-pointer border border-transparent focus:border-ring outline-none"
               >
                 <option value="true">Public</option>
                 <option value="false">Private</option>
@@ -181,7 +181,7 @@ function AddSnippetModal() {
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Description"
               rows={2}
-              className="w-full pt-2 px-4 bg-1 text-white rounded-lg"
+              className="w-full pt-2 px-4 bg-input text-foreground rounded-lg border border-transparent focus:border-ring outline-none resize-none"
             ></textarea>
           </div>
           <div>
@@ -191,7 +191,7 @@ function AddSnippetModal() {
                   name="code"
                   value={code}
                   onChange={(e) => setCode(e.target.value)}
-                  className="w-full pt-2 h-[200px] px-4 bg-1 text-white rounded-lg"
+                  className="w-full pt-2 h-[200px] px-4 bg-input text-foreground rounded-lg border border-transparent focus:border-ring outline-none font-mono"
                   placeholder="// Code here..."
                 ></textarea>
               </code>
@@ -199,19 +199,16 @@ function AddSnippetModal() {
           </div>
           <div className="flex flex-wrap gap-4">
             {tags.map((tag: ITag, index: number) => {
+              const isActive = activeTags.some((activeTag: { _id: string }) => activeTag._id === tag._id);
               return (
                 <Button
                   key={index}
                   type="button"
                   onClick={() => handleTags(tag)}
-                  className="py-1 text-white text-sm"
-                  style={{
-                    background: activeTags.some((activeTag: { _id: string }) => {
-                      return activeTag._id === tag._id;
-                    })
-                      ? "#7263f3"
-                      : useTagColorMemo,
-                  }}
+                  className={`py-1 text-sm border transition-colors ${isActive
+                      ? "bg-primary text-primary-foreground border-primary"
+                      : "bg-secondary text-secondary-foreground border-border hover:border-primary"
+                    }`}
                 >
                   {tag.name}
                 </Button>
@@ -221,12 +218,12 @@ function AddSnippetModal() {
           <div className="flex justify-end gap-4">
             <Button
               type="button"
-              className="bg-2 text-black bg-red-500 hover:bg-red-600/80"
-              onClick={() =>{ closeModal(); resetForm()}}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+              onClick={() => { closeModal(); resetForm() }}
             >
               Cancel
             </Button>
-            <Button type="submit" className="bg-sky-400 hover:bg-sky-500/80">
+            <Button type="submit" className="bg-primary text-primary-foreground hover:bg-primary/90">
               {modalMode === "edit-snippet" ? "Update Snippet" : "Add Snippet"}
             </Button>
           </div>

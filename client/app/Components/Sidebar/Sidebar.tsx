@@ -10,9 +10,9 @@ import { useRouter } from 'nextjs-toploader/app';
 import React from 'react'
 
 function Sidebar() {
-    const {user} = useUserContext(); 
- 
-    const {isSidebarOpen, setIsSidebarOpen} = useGlobalContext();
+  const { user } = useUserContext();
+
+  const { isSidebarOpen, setIsSidebarOpen } = useGlobalContext();
 
   const router = useRouter();
 
@@ -69,62 +69,62 @@ function Sidebar() {
     return pathname === url ? "#aaa" : "#71717a";
   }
 
-  return ( 
-    <div className={`fixed z-20 bg-2 h-full ${isSidebarOpen ? 'w-[12rem]' : 'w-[3.2rem]'} border-r-[2px] border-rgba-3`}>
-      <span className='u-shadow-2 bg-2 w-[45px] py-[0.8rem] absolute z-50 top-[21px] right-[-47px] cursor-pointer text-xl text-gray-400 flex items-center justify-center rounded-tr-lg rounded-br-lg  '
-       onClick={()=> setIsSidebarOpen(!isSidebarOpen)}
+  return (
+    <div className={`fixed z-20 bg-sidebar h-full ${isSidebarOpen ? 'w-[12rem]' : 'w-[3.2rem]'} border-r border-sidebar-border`}>
+      <span className='shadow-md bg-sidebar w-[45px] py-[0.8rem] absolute z-50 top-[21px] right-[-47px] cursor-pointer text-xl text-sidebar-foreground/60 flex items-center justify-center rounded-tr-lg rounded-br-lg'
+        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
       >{isSidebarOpen ? arrowLeft : bars}</span>
       <nav className='h-full flex flex-col justify-between'>
         <div className='mt-4 flex flex-1 flex-col justify-between'>
           <ul>
             {
-              menu.slice(0,-2).map((item)=>{
+              menu.slice(0, -2).map((item) => {
                 return (
-                  <li className={`sidebar-nav-item my-[.3rem] px-4 py-[.6rem] cursor-pointer ${pathname === item.url ? "active-nav-item" : "" }`} key={item.id}
-                   onClick={()=> router.push(item.url)}
+                  <li className={`sidebar-nav-item group my-[.3rem] px-4 py-[.6rem] cursor-pointer ${pathname === item.url ? "active-nav-item text-sidebar-foreground" : "text-muted-foreground/60 hover:text-sidebar-foreground"}`} key={item.id}
+                    onClick={() => router.push(item.url)}
                   >
-                    <Link className='grid grid-cols-[40px_1fr] items-center text-gray-200' href={item.url}>
-                       <span style={{color: getIconColor(item.url)}} className=''>{item.icon}</span>
-                       <span>{item.name}</span>
+                    <Link className='grid grid-cols-[40px_1fr] items-center text-inherit relative z-10' href={item.url}>
+                      <span className={pathname === item.url ? "text-sidebar-foreground" : "text-muted-foreground group-hover:text-sidebar-foreground"}>{item.icon}</span>
+                      <span>{item.name}</span>
                     </Link>
                   </li>
                 )
               })
             }
-            </ul>
+          </ul>
 
-            <ul className={` ${isSidebarOpen ? "mb-2" : "mb-[5.2rem]"} `}>
+          <ul className={` ${isSidebarOpen ? "mb-2" : "mb-[5.2rem]"} `}>
             {
-              menu.slice(-2).map((item)=>{
+              menu.slice(-2).map((item) => {
                 return (
-                  <li className={`sidebar-nav-item my-[.3rem] px-4 py-[.6rem] cursor-pointer ${pathname === item.url ? "active-nav-item" : "" }`} key={item.id}
-                   onClick={()=> router.push(item.url)}
+                  <li className={`sidebar-nav-item group my-[.3rem] px-4 py-[.6rem] cursor-pointer ${pathname === item.url ? "active-nav-item text-sidebar-foreground" : "text-muted-foreground/60 hover:text-sidebar-foreground"}`} key={item.id}
+                    onClick={() => router.push(item.url)}
                   >
-                    <Link className='grid grid-cols-[40px_1fr] items-center text-gray-200' href={item.url}>
-                       <span style={{color: getIconColor(item.url)}} className=''>{item.icon}</span>
-                       <span>{item.name}</span>
+                    <Link className='grid grid-cols-[40px_1fr] items-center text-inherit relative z-10' href={item.url}>
+                      <span className={pathname === item.url ? "text-sidebar-foreground" : "text-muted-foreground group-hover:text-sidebar-foreground"}>{item.icon}</span>
+                      <span>{item.name}</span>
                     </Link>
                   </li>
                 )
               })
             }
-            </ul>
+          </ul>
         </div>
 
-        {isSidebarOpen && <footer className='mb-[5rem] p-4 border-t-[2px] border-rgba-3 text-gray-300 '>
+        {isSidebarOpen && <footer className='mb-[5rem] p-4 border-t border-sidebar-border text-muted-foreground '>
           <ul className='flex items-center justify-center gap-4'>
             <li>
-              <Link className='underline text-sm hover:text-green-400' href={"/terms"}>Terms</Link>
+              <Link className='underline text-sm hover:text-primary' href={"/terms"}>Terms</Link>
             </li>
             <li>
-              <Link className='underline text-sm hover:text-green-400' href={"/privacy"}>Privacy</Link>
+              <Link className='underline text-sm hover:text-primary' href={"/privacy"}>Privacy</Link>
             </li>
             <li>
-              <Link className='underline text-sm hover:text-green-400' href={"/help"}>Help</Link>
+              <Link className='underline text-sm hover:text-primary' href={"/help"}>Help</Link>
             </li>
           </ul>
           <p className='text-center text-sm mt-4'>&copy; {new Date().getFullYear()} <Link href={"https://danish-portfolio-be.netlify.app/"} target='_blank' >Danish Dev</Link> All&nbsp;rights</p>
-          </footer>}
+        </footer>}
       </nav>
 
 

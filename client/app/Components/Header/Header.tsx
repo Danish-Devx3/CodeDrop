@@ -17,7 +17,7 @@ function Header() {
     useGlobalContext();
 
   return (
-    <div className="fixed z-20 top-0 w-full px-8 flex items-center justify-between bg-1 border-b-[2px] border-rgba-2 h-[8vh]">
+    <div className="fixed z-20 top-0 w-full px-8 flex items-center justify-between bg-background border-b border-border h-[8vh]">
       <Link href="/" className="flex items-center space-x-2 ">
         <svg
           id="logo-35"
@@ -30,17 +30,15 @@ function Header() {
           {" "}
           <path
             d="M16.4992 2H37.5808L22.0816 24.9729H1L16.4992 2Z"
-            class="ccompli1"
-            fill="#007AFF"
+            className="fill-primary"
           ></path>{" "}
           <path
             d="M17.4224 27.102L11.4192 36H33.5008L49 13.0271H32.7024L23.2064 27.102H17.4224Z"
-            class="ccustom"
-            fill="#312ECB"
+            className="fill-chart-1"
           ></path>{" "}
         </svg>
-        <h1 className="text-white font-bold text-2xl">
-          Code<sub className="font-medium text-sky-300">Drop</sub>
+        <h1 className="text-foreground font-bold text-2xl">
+          Code<sub className="font-medium text-primary">Drop</sub>
         </h1>
       </Link>
 
@@ -50,19 +48,19 @@ function Header() {
       {!user._id ? (
         <div className="flex items-center gap-4">
           <button
-            className="btn-hover relative py-2 px-3 bg-[#3a3b3c] flex items-center justify-center gap-2 rounded-xl overflow-hidden "
+            className="btn-hover relative py-2 px-3 bg-secondary flex items-center justify-center gap-2 rounded-xl overflow-hidden "
             onClick={() => router.push("/login")}
           >
-            <span className="text-gray-200 ">{login}</span>
-            <span className="font-semibold text-white">Login</span>
+            <span className="text-secondary-foreground ">{login}</span>
+            <span className="font-semibold text-secondary-foreground">Login</span>
             <div className="blob"></div>
           </button>
           <button
-            className="btn-hover relative py-2 px-3 bg-[#7263f3] flex items-center justify-center gap-2 rounded-xl overflow-hidden "
+            className="btn-hover relative py-2 px-3 bg-primary flex items-center justify-center gap-2 rounded-xl overflow-hidden "
             onClick={() => router.push("/register")}
           >
-            <span className=" text-gray-200 ">{register}</span>
-            <span className="font-semibold text-white">Register</span>
+            <span className=" text-primary-foreground ">{register}</span>
+            <span className="font-semibold text-primary-foreground">Register</span>
             <div className="blob"></div>
           </button>
         </div>
@@ -70,17 +68,17 @@ function Header() {
         <div className="flex items-center gap-2">
           <button
             onClick={openModalForSnippet}
-            className="mr-4 h-[42px] px-4 flex items-center justify-center bg-white rounded-lg font-semibold hover:bg-white/80 transition-all duration-200 ease-in-out "
+            className="mr-4 h-[42px] px-4 flex items-center justify-center bg-primary text-primary-foreground rounded-lg font-semibold hover:bg-primary/90 transition-all duration-200 ease-in-out "
           >
             Create Snippet
           </button>
           <button
             onClick={openModalForSearch}
-            className="w-[43px] h-[42px] flex items-center justify-center bg-rgba-3 rounded-lg lg:hidden "
+            className="w-[43px] h-[42px] flex items-center justify-center bg-secondary rounded-lg lg:hidden "
           >
-            <SearchIcon stroke="rgba(249,249,249,0.6)" />
+            <SearchIcon />
           </button>
-          <button className="w-[42px] h-[42px] flex items-center justify-center bg-rgba-3 rounded-lg ">
+          <button className="w-[42px] h-[42px] flex items-center justify-center bg-secondary rounded-lg ">
             <Image
               src={photo}
               alt="pfp"

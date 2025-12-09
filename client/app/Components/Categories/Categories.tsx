@@ -62,15 +62,14 @@ function Categories() {
 
   return (
     <div className="fixed w-full z-10">
-      <div className="pl-14 py-3 w-full bg-3 border-b-2 border-rgba-2 ">
-        <Carousel className="w-full  lg:max-w-[1200px] xl:max-w-[1450px] ">
+      <div className="pl-14 py-3 w-full bg-background border-b border-border ">
+        <Carousel className="w-full lg:max-w-[1200px] xl:max-w-[1450px] ">
           <CarouselContent className="flex gap-4">
             <CarouselItem
-              className={`relative text-sm px-6 py-1 rounded-full cursor-pointer border-[0.1rem] border-rgba-1 select-none  ${
-                activeTag === "All"
-                  ? "text-white bg-purple-400"
-                  : "b-g-[#3a3b3c] text-white hover:text-gray-800 hover:bg-white transition-all duration-300 ease-in-out"
-              }`}
+              className={`relative text-sm px-6 py-1 rounded-full cursor-pointer border select-none transition-all duration-300 ease-in-out ${activeTag === "All"
+                  ? "text-primary-foreground bg-primary border-primary"
+                  : "bg-secondary text-secondary-foreground border-border hover:bg-muted hover:text-foreground"
+                }`}
               onClick={() => {
                 setActiveTag("All");
                 setActiveTagId(null);
@@ -81,11 +80,11 @@ function Categories() {
             {tags.map((tag: ITag) => {
               return (
                 <CarouselItem
-                  className={`relative text-[0.7rem] px-4 rounded-full cursor-pointer border-[0.1rem] border-rgba-1 select-none flex items-center justify-center  ${
-                    activeTag === tag.name
-                      ? "text-white bg-purple-400"
-                      : "b-g-[#3a3b3c] text-white hover:text-gray-800 hover:bg-white transition-all duration-300 ease-in-out"
-                  }`}
+                  key={tag._id}
+                  className={`relative text-[0.7rem] px-4 rounded-full cursor-pointer border select-none flex items-center justify-center transition-all duration-300 ease-in-out ${activeTag === tag.name
+                      ? "text-primary-foreground bg-primary border-primary"
+                      : "bg-secondary text-secondary-foreground border-border hover:bg-muted hover:text-foreground"
+                    }`}
                   onClick={() => {
                     setActiveTag(tag.name);
                     setActiveTagId(tag._id);

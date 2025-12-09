@@ -45,22 +45,22 @@ function ProfileModal() {
   return (
     <div
       ref={ref}
-      className="u-shadow-1 fixed z-30 right-8 top-[4.2rem] bg-1 rounded-lg border border-rgba-2"
+      className="shadow-md fixed z-30 right-8 top-[4.2rem] bg-card rounded-lg border border-border"
     >
       <nav>
-        <ul className="py-1 ">
+        <ul className="py-1 min-w-[200px]">
           {menu.map((item, idx) => (
             <li
               key={idx}
-              className="sidebar-nav-item my-[.3rem] px-8 py-.[6rem] cursor-pointer"
+              className="px-4 py-2 cursor-pointer hover:bg-muted transition-colors rounded-sm mx-1"
               onClick={item.onClick}
             >
               <Link
                 href={item.url}
-                className="grid grid-cols-[40px_1fr] items-center text-gray-200 "
+                className="grid grid-cols-[30px_1fr] items-center text-foreground"
               >
-                <span className="text-lg text-[#71717a]">{item.icon}</span>
-                <span className="ml-2">{item.name}</span>
+                <span className="text-lg text-muted-foreground">{item.icon}</span>
+                <span className="">{item.name}</span>
               </Link>
             </li>
           ))}

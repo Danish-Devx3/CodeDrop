@@ -69,8 +69,9 @@ function Snippet({ snippet, height = "400px" }: Props) {
 
 
   return (
-    <div className="shadow-sm flex flex-col border-2 border-rgba-3 rounded-lg">
-      <div className="px-5 py-3 flex items-center justify-between rounded-t-lg border-b-2 border-rgba-3">
+
+    <div className="shadow-sm flex flex-col border border-border rounded-lg bg-card overflow-hidden">
+      <div className="px-5 py-3 flex items-center justify-between border-b border-border bg-muted/30">
         <Link
           href={`/user/${snippet?.user?.name
             ?.toLowerCase()
@@ -84,22 +85,21 @@ function Snippet({ snippet, height = "400px" }: Props) {
               alt="user"
               width={40}
               height={40}
-              className="rounded-full"
+              className="rounded-full ring-2 ring-transparent group-hover:ring-primary transition-all"
             />
-            <h3 className="ml-2 text-gray-400 font-semibold group-hover:text-green-400 ">
+            <h3 className="ml-2 text-muted-foreground font-semibold group-hover:text-primary transition-colors">
               <span className="capitalize group-hover:underline transition-all ease-in-out duration-200">
                 {snippet?.user?.name}
               </span>
-              <span className="text-sm text-gray-400 font-normal group-hover:underline group-hover:text-green-400 transition-all ease-in-out duration-200">
+              <span className="text-sm font-normal group-hover:underline transition-all ease-in-out duration-200 ml-1">
                 , {formatDate(snippet?.createdAt)}
               </span>
             </h3>
           </div>
         </Link>
-        <div className="flex items-center gap-2 text-gray-200">
+        <div className="flex items-center gap-2 text-foreground">
           <button
-            className="w-10 h-10 rounded-md text-green-400 text-lg flex items-center justify-center "
-            style={{ background: useBtnColorMemo }}
+            className="w-10 h-10 rounded-md text-primary hover:bg-accent hover:text-accent-foreground text-lg flex items-center justify-center transition-colors border border-border"
             onClick={() => {
               navigator.clipboard.writeText(codeString);
               toast.success("Code copied to clipboard");
@@ -108,8 +108,7 @@ function Snippet({ snippet, height = "400px" }: Props) {
             {copy}
           </button>
           <button
-            className="w-10 h-10 rounded-md text-green-400 text-lg flex items-center justify-center "
-            style={{ background: useTagColorMemo }}
+            className="w-10 h-10 rounded-md text-primary hover:bg-accent hover:text-accent-foreground text-lg flex items-center justify-center transition-colors border border-border"
           >
             {bookmarkEmpty}
           </button>
@@ -123,8 +122,8 @@ function Snippet({ snippet, height = "400px" }: Props) {
           style={vs2015}
           customStyle={{
             fontSize: "1.1rem",
-            background: "#181818",
-            borderRadius: "0 0 6px 6px",
+            background: "var(--card)",
+            padding: "1.5rem",
             height: height,
             scrollbarWidth: "none",
             overflow: "scroll",
@@ -134,57 +133,57 @@ function Snippet({ snippet, height = "400px" }: Props) {
         </SyntaxHighlighter>
       </div>
 
-      <div className="flex-1 px-6 py-2 bg-4 ronded-b-lg border-t-2 border-rgba-3`">
-        <div className="flex justify-between gap-2">
-          <div className="flex-1 flex flex-col">
+      <div className="flex-1 px-6 py-4 bg-muted/10 border-t border-border">
+        <div className="flex justify-between gap-4">
+          <div className="flex-1 flex flex-col gap-2">
             <Link
               href={`/snippet/${snippet?.title
                 .toLowerCase()
                 .split(" ")
                 .join("-")}-${snippet?._id}`}
+              className="group"
             >
               <div className="flex items-center gap-2">
                 <Image
                   width={20}
                   height={20}
-                  className=""
+                  className="opacity-80 group-hover:opacity-100 transition-opacity"
                   src={
                     languageLogo(snippet?.language) || "/logos/javascript.svg"
                   }
                   alt="lang"
                 />
-                <h2 className="text-xl font-semibold text-gray-300 cursor-pointer hover:text-green-400 hover:underline transition-all ease-in-out duration-300">
+                <h2 className="text-xl font-semibold text-foreground group-hover:text-primary group-hover:underline transition-all ease-in-out duration-300">
                   {snippet?.title}
                 </h2>
               </div>
             </Link>
-            <p className="pb-1 text-gray-400 ">{snippet?.description}</p>
+            <p className="text-muted-foreground line-clamp-2">{snippet?.description}</p>
           </div>
           <button
             onClick={handleLike}
-            className={`flex flex-col items-center text-2xl text-gray-300 transition-bg duration-300 ease-in-out ${
-              isLiked && "text-red-500"
-            } `}
+            className={`flex flex-col items-center justify-center min-w-[60px] text-2xl transition-all duration-300 ease-in-out hover:scale-110 ${isLiked ? "text-red-500" : "text-muted-foreground hover:text-red-500"
+              } `}
           >
             <span>{isLiked ? heart : heartOutline}</span>
-            <span className="text-sm font-bold text-gray-300">
+            <span className="text-sm font-bold mt-1">
               {likeCount === 0 ? 0 : likeCount}{" "}
               {likeCount === 1 || 0 ? "like" : "likes"}
             </span>
           </button>
         </div>
 
-        <div className="pt-2 pb-3 flex justify-between">
+        <div className="pt-4 flex justify-between items-end">
           <ul className="flex items-start gap-2 flex-wrap">
             {snippet?.tags.map((tag: ITag) => {
               return (
                 <li
-                  style={{
-                    background:
-                      activeTag === tag._id ? "#7263f3" : useTagColorMemo,
-                  }}
+                  key={tag._id}
                   onClick={() => setActiveTag(tag._id)}
-                  className="tag-item px-4 py-1 border border-rgba-2 text-gray-300 rounded-md cursor-pointer "
+                  className={`px-3 py-1 text-sm border rounded-full cursor-pointer transition-all hover:border-primary hover:text-primary ${activeTag === tag._id
+                    ? "bg-primary/10 border-primary text-primary"
+                    : "bg-background border-border text-muted-foreground"
+                    }`}
                 >
                   {tag.name}
                 </li>
@@ -195,15 +194,13 @@ function Snippet({ snippet, height = "400px" }: Props) {
             <div className="flex gap-2">
               <button
                 onClick={() => openModalForEdit(snippet)}
-                style={{ background: useBtnColorMemo }}
-                className="w-10 h-10 flex items-center justify-center rounded-md text-sky-400 text-xl"
+                className="w-9 h-9 flex items-center justify-center rounded-md border border-border text-muted-foreground hover:text-primary hover:bg-accent transition-all"
               >
                 {edit}
               </button>
               <button
                 onClick={() => deleteSnippet(snippet._id)}
-                style={{ background: useBtnColorMemo }}
-                className="w-10 h-10 flex items-center justify-center rounded-md text-sky-400 text-xl"
+                className="w-9 h-9 flex items-center justify-center rounded-md border border-border text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-all"
               >
                 {trash}
               </button>
