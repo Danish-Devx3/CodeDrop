@@ -12,6 +12,7 @@ import {
   heartOutline,
   trash,
 } from "@/utils/Icons";
+import { useTheme } from "next-themes";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "nextjs-toploader/app";
@@ -19,7 +20,7 @@ import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import SyntaxHighlighter from "react-syntax-highlighter";
 
-import { vs2015 } from "react-syntax-highlighter/dist/esm/styles/hljs";
+import { vs2015, docco } from "react-syntax-highlighter/dist/esm/styles/hljs";
 
 interface Props {
   snippet: ISnippet & { user: IUser };
@@ -49,6 +50,8 @@ function Snippet({ snippet, height = "400px" }: Props) {
   const [isLiked, setIsLiked] = useState(Boolean);
   const [likeCount, setLikeCount] = useState(snippet.likedBy.length);
   const [activeTag, setActiveTag] = useState("");
+
+  const { theme } = useTheme()
 
   const handleLike = () => {
     if (!userId) {
@@ -119,10 +122,9 @@ function Snippet({ snippet, height = "400px" }: Props) {
         <SyntaxHighlighter
           language={snippet?.language}
           showLineNumbers={true}
-          style={vs2015}
+          style={theme === "dark" ? vs2015 : docco}
           customStyle={{
             fontSize: "1.1rem",
-            background: "var(--card)",
             padding: "1.5rem",
             height: height,
             scrollbarWidth: "none",

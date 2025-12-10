@@ -5,16 +5,19 @@ import Link from "next/link";
 import React from "react";
 import SearchInput from "../SearchInput/SearchInput";
 import { login, register } from "@/utils/Icons";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useGlobalContext } from "@/context/globalContext";
 import SearchIcon from "@/public/Icons/SearchIcon";
+
+import { ThemeToggle } from "../ThemeToggle/ThemeToggle";
 
 function Header() {
   const { user } = useUserContext();
   const photo = user?.photo;
   const router = useRouter();
-  const { openModalForSnippet, openProfileModal, openModalForSearch } =
-    useGlobalContext();
+  const { openModalForSnippet, openProfileModal, openModalForSearch } = useGlobalContext();
+
+  const pathname = usePathname();
 
   return (
     <div className="fixed z-20 top-0 w-full px-8 flex items-center justify-between bg-background border-b border-border h-[8vh]">
@@ -42,11 +45,12 @@ function Header() {
         </h1>
       </Link>
 
-      <div className="lg:flex hidden">
+      {pathname !== "/" && <div className="lg:flex hidden">
         <SearchInput />
-      </div>
+      </div>}
       {!user._id ? (
         <div className="flex items-center gap-4">
+          <ThemeToggle />
           <button
             className="btn-hover relative py-2 px-3 bg-secondary flex items-center justify-center gap-2 rounded-xl overflow-hidden "
             onClick={() => router.push("/login")}
@@ -66,6 +70,7 @@ function Header() {
         </div>
       ) : (
         <div className="flex items-center gap-2">
+          <ThemeToggle />
           <button
             onClick={openModalForSnippet}
             className="mr-4 h-[42px] px-4 flex items-center justify-center bg-primary text-primary-foreground rounded-lg font-semibold hover:bg-primary/90 transition-all duration-200 ease-in-out "

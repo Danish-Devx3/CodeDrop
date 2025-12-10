@@ -11,16 +11,16 @@ interface props {
 export default function ContentProvider({ children }: props) {
   const { isSidebarOpen } = useGlobalContext();
   const pathname = usePathname();
-  const hideSidebarPaths = ["/profile/update", "/help", "/privacy", "/terms"];
+  const hideSidebarPaths = ["/profile/update", "/help", "/privacy", "/terms", "/", "/login", "/register"];
 
   const marginClass = hideSidebarPaths.includes(pathname)
     ? "ml-0"
     : isSidebarOpen
-    ? "ml-[15rem]"
-    : "ml-[5.2rem]";
+      ? "ml-[15rem]"
+      : "ml-[5.2rem]";
   return (
     <div className="relative">
-      {!hideSidebarPaths.includes(pathname) && <Sidebar/>}
+      {!hideSidebarPaths.includes(pathname) && <Sidebar />}
       <div className={`mt-[8vh] ${marginClass}`}>{children}</div>
     </div>
   );

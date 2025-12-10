@@ -8,6 +8,8 @@ import Header from "./Components/Header/Header";
 import NextTopLoader from "nextjs-toploader";
 import ModalProvider from "@/providers/ModalProvider";
 
+import { ThemeProvider } from "@/providers/ThemeProvider";
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -37,9 +39,17 @@ export default function RootLayout({
       <body className={inter.className}>
         <Toaster position="top-center" />
         <NextTopLoader showSpinner={false} color="#7263f3" height={2} />
-        <UserProvider>
-          {children}
-        </UserProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <UserProvider>
+            <Header />
+            <ContentProvider>{children}</ContentProvider>
+          </UserProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
