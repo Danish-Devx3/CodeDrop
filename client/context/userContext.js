@@ -69,7 +69,6 @@ export const UserContextProvider = ({ children }) => {
         }
       );
 
-      router.push("/feed")
       toast.success("User logged in successfully");
 
       // clear the form
@@ -82,7 +81,7 @@ export const UserContextProvider = ({ children }) => {
       await getUser(); // fetch before redirecting
 
       // push user to the dashboard page
-      router.push("/");
+      router.push("/feed");
     } catch (error) {
       console.log("Error logging in user", error);
       toast.error(error.response.data.message);

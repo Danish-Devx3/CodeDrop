@@ -22,7 +22,7 @@ function Sidebar() {
     {
       id: 1,
       name: isSidebarOpen ? "Home" : "",
-      url: "/",
+      url: "/feed",
       icon: home,
     },
 
@@ -70,7 +70,7 @@ function Sidebar() {
   }
 
   return (
-    <div className={`fixed z-20 bg-sidebar h-full ${isSidebarOpen ? 'w-[12rem]' : 'w-[3.2rem]'} border-r border-sidebar-border`}>
+    <div className={`fixed z-20 bg-sidebar h-full ${isSidebarOpen ? 'w-[12rem]' : 'w-[3.2rem]'} border-r border-sidebar-border shadow-xl transition-all duration-300 ease-in-out`}>
       <span className='shadow-md bg-sidebar w-[45px] py-[0.8rem] absolute z-50 top-[21px] right-[-47px] cursor-pointer text-xl text-sidebar-foreground/60 flex items-center justify-center rounded-tr-lg rounded-br-lg'
         onClick={() => setIsSidebarOpen(!isSidebarOpen)}
       >{isSidebarOpen ? arrowLeft : bars}</span>

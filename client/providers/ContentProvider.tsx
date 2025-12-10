@@ -16,8 +16,8 @@ export default function ContentProvider({ children }: props) {
   const marginClass = hideSidebarPaths.includes(pathname)
     ? "ml-0"
     : isSidebarOpen
-      ? "ml-[15rem]"
-      : "ml-[5.2rem]";
+      ? "ml-[3.3rem] md:ml-[15rem]"
+      : "ml-[3.3rem] md:ml-[5.2rem]";
   return (
     <div className="relative">
       {!hideSidebarPaths.includes(pathname) && <Sidebar />}

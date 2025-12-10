@@ -48,6 +48,7 @@ export default function RootLayout({
           <UserProvider>
             <Header />
             <ContentProvider>{children}</ContentProvider>
+            <ModalProvider />
           </UserProvider>
         </ThemeProvider>
       </body>

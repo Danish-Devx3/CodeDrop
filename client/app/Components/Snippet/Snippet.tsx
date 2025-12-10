@@ -74,7 +74,7 @@ function Snippet({ snippet, height = "400px" }: Props) {
   return (
 
     <div className="shadow-sm flex flex-col border border-border rounded-lg bg-card overflow-hidden">
-      <div className="px-5 py-3 flex items-center justify-between border-b border-border bg-muted/30">
+      <div className="px-3 py-3 md:px-5 flex items-center justify-between border-b border-border bg-muted/30">
         <Link
           href={`/user/${snippet?.user?.name
             ?.toLowerCase()
@@ -90,11 +90,11 @@ function Snippet({ snippet, height = "400px" }: Props) {
               height={40}
               className="rounded-full ring-2 ring-transparent group-hover:ring-primary transition-all"
             />
-            <h3 className="ml-2 text-muted-foreground font-semibold group-hover:text-primary transition-colors">
+            <h3 className="ml-2 text-muted-foreground font-semibold group-hover:text-primary transition-colors text-sm md:text-base">
               <span className="capitalize group-hover:underline transition-all ease-in-out duration-200">
                 {snippet?.user?.name}
               </span>
-              <span className="text-sm font-normal group-hover:underline transition-all ease-in-out duration-200 ml-1">
+              <span className="text-xs md:text-sm font-normal group-hover:underline transition-all ease-in-out duration-200 ml-1">
                 , {formatDate(snippet?.createdAt)}
               </span>
             </h3>
@@ -102,7 +102,7 @@ function Snippet({ snippet, height = "400px" }: Props) {
         </Link>
         <div className="flex items-center gap-2 text-foreground">
           <button
-            className="w-10 h-10 rounded-md text-primary hover:bg-accent hover:text-accent-foreground text-lg flex items-center justify-center transition-colors border border-border"
+            className="w-8 h-8 md:w-10 md:h-10 rounded-md text-primary hover:bg-accent hover:text-accent-foreground text-base md:text-lg flex items-center justify-center transition-colors border border-border"
             onClick={() => {
               navigator.clipboard.writeText(codeString);
               toast.success("Code copied to clipboard");
@@ -111,7 +111,7 @@ function Snippet({ snippet, height = "400px" }: Props) {
             {copy}
           </button>
           <button
-            className="w-10 h-10 rounded-md text-primary hover:bg-accent hover:text-accent-foreground text-lg flex items-center justify-center transition-colors border border-border"
+            className="w-8 h-8 md:w-10 md:h-10 rounded-md text-primary hover:bg-accent hover:text-accent-foreground text-base md:text-lg flex items-center justify-center transition-colors border border-border"
           >
             {bookmarkEmpty}
           </button>
@@ -124,18 +124,19 @@ function Snippet({ snippet, height = "400px" }: Props) {
           showLineNumbers={true}
           style={theme === "dark" ? vs2015 : docco}
           customStyle={{
-            fontSize: "1.1rem",
+            fontSize: window.innerWidth < 720 ? "0.8rem" : "1.1rem",
             padding: "1.5rem",
-            height: height,
+            height: window.innerWidth < 720 ? "200px" : "400px",
             scrollbarWidth: "none",
             overflow: "scroll",
+            backgroundColor: "transparent", // Ensure bg matches theme
           }}
         >
           {codeString}
         </SyntaxHighlighter>
       </div>
 
-      <div className="flex-1 px-6 py-4 bg-muted/10 border-t border-border">
+      <div className="flex-1 px-4 py-3 md:px-6 md:py-4 bg-muted/10 border-t border-border">
         <div className="flex justify-between gap-4">
           <div className="flex-1 flex flex-col gap-2">
             <Link
@@ -155,20 +156,20 @@ function Snippet({ snippet, height = "400px" }: Props) {
                   }
                   alt="lang"
                 />
-                <h2 className="text-xl font-semibold text-foreground group-hover:text-primary group-hover:underline transition-all ease-in-out duration-300">
+                <h2 className="text-sm md:text-base font-semibold text-foreground group-hover:text-primary group-hover:underline transition-all ease-in-out duration-300">
                   {snippet?.title}
                 </h2>
               </div>
             </Link>
-            <p className="text-muted-foreground line-clamp-2">{snippet?.description}</p>
+            <p className="text-xs md:text-sm text-muted-foreground line-clamp-2">{snippet?.description}</p>
           </div>
           <button
             onClick={handleLike}
-            className={`flex flex-col items-center justify-center min-w-[60px] text-2xl transition-all duration-300 ease-in-out hover:scale-110 ${isLiked ? "text-red-500" : "text-muted-foreground hover:text-red-500"
+            className={`flex flex-col items-center justify-center min-w-[50px] md:min-w-[60px] text-xl md:text-2xl transition-all duration-300 ease-in-out hover:scale-110 ${isLiked ? "text-red-500" : "text-muted-foreground hover:text-red-500"
               } `}
           >
             <span>{isLiked ? heart : heartOutline}</span>
-            <span className="text-sm font-bold mt-1">
+            <span className="text-xs md:text-sm font-bold mt-1">
               {likeCount === 0 ? 0 : likeCount}{" "}
               {likeCount === 1 || 0 ? "like" : "likes"}
             </span>
@@ -182,7 +183,7 @@ function Snippet({ snippet, height = "400px" }: Props) {
                 <li
                   key={tag._id}
                   onClick={() => setActiveTag(tag._id)}
-                  className={`px-3 py-1 text-sm border rounded-full cursor-pointer transition-all hover:border-primary hover:text-primary ${activeTag === tag._id
+                  className={`px-2 py-0.5 md:px-3 md:py-1 text-xs md:text-sm border rounded-full cursor-pointer transition-all hover:border-primary hover:text-primary ${activeTag === tag._id
                     ? "bg-primary/10 border-primary text-primary"
                     : "bg-background border-border text-muted-foreground"
                     }`}
@@ -196,13 +197,13 @@ function Snippet({ snippet, height = "400px" }: Props) {
             <div className="flex gap-2">
               <button
                 onClick={() => openModalForEdit(snippet)}
-                className="w-9 h-9 flex items-center justify-center rounded-md border border-border text-muted-foreground hover:text-primary hover:bg-accent transition-all"
+                className="w-8 h-8 md:w-9 md:h-9 flex items-center justify-center rounded-md border border-border text-muted-foreground hover:text-primary hover:bg-accent transition-all"
               >
                 {edit}
               </button>
               <button
                 onClick={() => deleteSnippet(snippet._id)}
-                className="w-9 h-9 flex items-center justify-center rounded-md border border-border text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-all"
+                className="w-8 h-8 md:w-9 md:h-9 flex items-center justify-center rounded-md border border-border text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-all"
               >
                 {trash}
               </button>

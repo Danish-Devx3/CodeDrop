@@ -2,12 +2,18 @@ import React, { createContext, useContext, useState } from "react";
 
 const GlobalContext = createContext();
 
-export const GlobalProvider = ({children}) =>{
+export const GlobalProvider = ({ children }) => {
 
     const [modalMode, setModalMode] = useState("");
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     const [isEditing, setIsEditing] = useState(false);
     const [activeSnippet, setActiveSnippet] = useState(null);
+
+    React.useEffect(() => {
+        if (window.innerWidth < 1024) {
+            setIsSidebarOpen(false);
+        }
+    }, []);
 
     const openModalForSnippet = () => {
         setModalMode("add-snippet");
