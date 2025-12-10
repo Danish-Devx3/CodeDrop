@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import React, { useEffect, useState, useContext } from "react";
 import toast from "react-hot-toast";
 
@@ -81,12 +81,14 @@ export const UserContextProvider = ({ children }) => {
       await getUser(); // fetch before redirecting
 
       // push user to the dashboard page
-      router.push("/");
+      router.push("/feed");
     } catch (error) {
       console.log("Error logging in user", error);
       toast.error(error.response.data.message);
     }
   };
+
+  const pathname = usePathname();
 
   // get user Looged in Status
   const userLoginStatus = async () => {
@@ -100,7 +102,7 @@ export const UserContextProvider = ({ children }) => {
       loggedIn = !!res.data;
       setLoading(false);
 
-      if (!loggedIn) {
+      if (!loggedIn && pathname !== "/" && pathname !== "/register" && pathname !== "/login") {
         router.push("/login");
       }
     } catch (error) {
@@ -155,7 +157,7 @@ export const UserContextProvider = ({ children }) => {
   const getUserById = async (id) => {
     setLoading(true)
     try {
-      const res = await axios.get(`${serverUrl}/api/v1/user/${id}`,{
+      const res = await axios.get(`${serverUrl}/api/v1/user/${id}`, {
         withCredentials: true
       });
       setLoading(false);
