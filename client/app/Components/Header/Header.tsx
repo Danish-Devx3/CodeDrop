@@ -21,7 +21,7 @@ function Header() {
 
   return (
     <div className="fixed z-20 top-0 w-full px-4 md:px-8 flex items-center justify-between bg-background border-b border-border h-[8vh]">
-      <Link href="/" className="flex items-center space-x-2 ">
+      <Link href="/feed" className="flex items-center space-x-2 ">
         <svg
           id="logo-35"
           width="50"
